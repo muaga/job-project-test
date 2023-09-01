@@ -16,7 +16,7 @@ public class CommunityControllerTest {
     public void 게시물목록_test() {
         String keyword = "6";
         Integer page = 1;
-        Page<Community> communityPG = communityService.검색후게시물목록보기(page, keyword);
+        Page<Community> communityPG = communityService.검색후게시물목록(page, keyword);
         System.out.println("테스트 : " + communityPG.getSize());
     }
 
