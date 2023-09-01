@@ -13,13 +13,27 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 
+import shop.mtcoding.project.community.CommunityRequest.BoardSaveDTO;
+
 @DataJpaTest
 public class CommunityServiceTest {
 
-    // 검색 후 게시물 가져오기
     @Autowired
     private CommunityRepository communityRepository;
 
+    @Test
+    public void 게시물작성_test() {
+        Community community = Community.builder()
+                .title("안녕하세요")
+                .content("그동안 감사했습니다.")
+                .build();
+        Community saveCommunity = communityRepository.save(community);
+
+        System.out.println("테스트 : " + saveCommunity.getTitle());
+        System.out.println("테스트 : " + saveCommunity.getContent());
+    }
+
+    // 검색 후 게시물 가져오기
     @Test
     public void 검색게시물목록_test() {
         Pageable pageable = PageRequest.of(0, 6, Sort.Direction.DESC, "id");
@@ -29,6 +43,7 @@ public class CommunityServiceTest {
         }
     }
 
+    // 게시물 작성 유저네임 확인
     @Test
     public void 게시물유저네임_test() {
         Pageable pageable = PageRequest.of(0, 3, Sort.Direction.DESC, "id");
