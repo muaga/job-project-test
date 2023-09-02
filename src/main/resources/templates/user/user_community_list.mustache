@@ -1,4 +1,5 @@
 {{>layout/userheader}}
+
 <!--메인-->
 <!-- 각자 페이지 name 작성-->
 <main class="community_list common_bg">
@@ -28,7 +29,7 @@
       {{#communityPG}}
       <div class="inner_box_board mt-3">
         <div class="each_board">
-          <a href="user_community_detail.html">
+          <a href="/user/community/board/{{id}}">
             <img class="speech_png " src="/image/com_img/speech.png" alt="speech_png">
             <div class="title">{{title}}</div>
             <div class="content">{{content}}</div>

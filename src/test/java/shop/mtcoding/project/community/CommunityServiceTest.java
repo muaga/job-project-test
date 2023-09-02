@@ -21,6 +21,7 @@ public class CommunityServiceTest {
     @Autowired
     private CommunityRepository communityRepository;
 
+    // 게시물 작성하기
     @Test
     public void 게시물작성_test() {
         Community community = Community.builder()
@@ -37,7 +38,7 @@ public class CommunityServiceTest {
     @Test
     public void 검색게시물목록_test() {
         Pageable pageable = PageRequest.of(0, 6, Sort.Direction.DESC, "id");
-        Page<Community> communityPG = communityRepository.findBySearchAll(pageable, "제목");
+        Page<Community> communityPG = communityRepository.mfindBySearchAll(pageable, "제목");
         for (Community community : communityPG) {
             System.out.println("테스트 : " + community.getTitle());
         }
@@ -65,15 +66,6 @@ public class CommunityServiceTest {
         System.out.println("테스트 : " + pageable);
         System.out.println("테스트 :" + communityPG.getContent());
 
-    }
-
-    // findAll test
-    @Test
-    public void findAll_test() {
-        List<Community> communityList = communityRepository.findAll();
-        for (Community community : communityList) {
-            System.out.println("테스트 :" + community.getTitle());
-        }
     }
 
 }
