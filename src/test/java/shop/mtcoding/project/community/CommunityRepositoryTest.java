@@ -5,6 +5,7 @@ import java.util.List;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
+import org.springframework.data.domain.Page;
 
 import shop.mtcoding.project.reply.Reply;
 
@@ -61,23 +62,6 @@ public class CommunityRepositoryTest {
         System.out.println("테스트 : " + saveCommunity.getTitle());
         System.out.println("테스트 : " + saveCommunity.getContent());
     }
-
-    // @Test
-    // public void mfindByAllJoinUser_test() {
-    // List<Community> communityList = communityRepository.mfindByAllJoinUser();
-    // System.out.println("테스트 : " + communityList.get(0).getTitle());
-    // System.out.println("테스트 : " + communityList.get(0).getContent());
-    // System.out.println("테스트 : " + communityList.get(0).getUser().getUserName());
-    // System.out.println("테스트 : " +
-    // communityList.get(0).getUser().getUserEmailId());
-
-    // for (Community community : communityList) {
-    // System.out.println("테스트 : " + community);
-    // System.out.println("테스트 : " + community.getContent());
-    // System.out.println("테스트 : " + community.getUser().getUserName());
-    // System.out.println("테스트 : " + community.getUser().getUserEmailId());
-    // }
-    // }
 
     // findAll test
     @Test

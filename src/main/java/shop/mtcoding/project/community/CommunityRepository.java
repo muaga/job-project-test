@@ -11,8 +11,9 @@ import org.springframework.data.repository.query.Param;
 
 public interface CommunityRepository extends JpaRepository<Community, Integer> {
 
-    // @Query("select c from Community as c left join fetch c.user as cr")
-    // Page<Community> mfindByAllJoinUser(Pageable pageable);
+    // @Query("SELECT c FROM Community c LEFT JOIN FETCH c.user cu LEFT JOIN FETCH
+    // c.replyList cr")
+    // Page<Community> mfindByJoinAll(@Param("id") Pageable pageable);
 
     @Query("select c from Community as c where title like %:keyword% or content like %:keyword%")
     Page<Community> mfindBySearchAll(@Param("id") Pageable pageable, @Param("keyword") String keyword);

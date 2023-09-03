@@ -9,7 +9,7 @@ public class ReplyRequest {
     @Setter
     public static class ReplySaveDTO {
 
-        private Integer BoardId;
+        private Integer boardId;
         private String comment;
 
     }
