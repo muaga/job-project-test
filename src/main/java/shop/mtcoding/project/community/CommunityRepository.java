@@ -1,6 +1,5 @@
 package shop.mtcoding.project.community;
 
-import java.util.List;
 import java.util.Optional;
 
 import org.springframework.data.domain.Page;

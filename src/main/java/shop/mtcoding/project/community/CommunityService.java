@@ -1,14 +1,10 @@
 package shop.mtcoding.project.community;
 
-import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.Optional;
 
-import javax.servlet.http.HttpSession;
 import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -116,14 +112,14 @@ public class CommunityService {
                 Date replyCreatedAt = reply.getCreatedAt();
                 String replyFormatDate = FormatDate.formatDate(replyCreatedAt);
 
-                ReplyDetailDTO dtos = ReplyDetailDTO.builder()
+                ReplyDetailDTO replyDetailDTO = ReplyDetailDTO.builder()
                         .replyId(reply.getId())
                         .comment(reply.getComment())
                         .replyUserName(reply.getUser().getUserName())
                         .replyFormatDate(replyFormatDate)
                         .build();
 
-                replyDetailDTOList.add(dtos);
+                replyDetailDTOList.add(replyDetailDTO);
             }
 
             // 날짜포맷한 글 상세보기 데이터
