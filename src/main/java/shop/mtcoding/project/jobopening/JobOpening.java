@@ -1,8 +1,11 @@
 package shop.mtcoding.project.jobopening;
 
 import java.sql.Timestamp;
+import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -14,12 +17,13 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 import org.hibernate.annotations.CreationTimestamp;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import shop.mtcoding.project.apply.Apply;
+import shop.mtcoding.project.position.RequiredPosition;
 import shop.mtcoding.project.qualified.Qualified;
 import shop.mtcoding.project.scrap.UserScrap;
 import shop.mtcoding.project.skill.RequiredSkill;
@@ -46,7 +50,7 @@ public class JobOpening {
     @Column(nullable = false)
     private String career;
 
-    @Column(nullable = false)
+    @Column(nullable = true)
     private String careerYear;
 
     @Column(nullable = false)
@@ -55,9 +59,8 @@ public class JobOpening {
     @Column(nullable = false)
     private String compAddress;
 
-    @CreationTimestamp
-    @Column(nullable = false)
-    private Timestamp deadLine;
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
+    private LocalDate deadLine;
 
     @CreationTimestamp
     private Timestamp createdAt;
@@ -65,9 +68,12 @@ public class JobOpening {
     @ManyToOne(fetch = FetchType.LAZY)
     private User user;
 
+    @OneToMany(mappedBy = "jobOpening", fetch = FetchType.LAZY)
+    private List<UserScrap> userScrap = new ArrayList<>();
+
     @Builder
     public JobOpening(Integer id, String title, String process, String career, String careerYear, String edu,
-            String compAddress, Timestamp deadLine, Timestamp createdAt, User user) {
+            String compAddress, LocalDate deadLine, Timestamp createdAt, User user, List<UserScrap> userScrap) {
         this.id = id;
         this.title = title;
         this.process = process;
@@ -78,7 +84,7 @@ public class JobOpening {
         this.deadLine = deadLine;
         this.createdAt = createdAt;
         this.user = user;
+        this.userScrap = userScrap;
     }
-
 
 }
