@@ -3,14 +3,11 @@ package shop.mtcoding.project.scrap;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import shop.mtcoding.project._core.error.ex.MyApiException;
 import shop.mtcoding.project._core.util.ApiUtil;
-import shop.mtcoding.project.reply.ReplyRequest;
 
 @Controller
 public class ScrapController {
@@ -19,7 +16,7 @@ public class ScrapController {
     private ScrapService scrapService;
 
     // user_채용공고 스크랩
-    @PostMapping("/api/user/jobopening/saveScrap")
+    @PostMapping("/api/user/jobOpening/scrap/save")
     public @ResponseBody ApiUtil<String> userJobOpeningSaveScrap(
             @RequestBody UserScrapRequest.UserScrapDTO userScrapDTO) {
         scrapService.채용공고스크랩(1, userScrapDTO);
@@ -27,8 +24,8 @@ public class ScrapController {
     }
 
     // user_채용공고 스크랩 삭제
-    @DeleteMapping("/api/user/jobopening/deleteScrap")
-    public @ResponseBody ApiUtil<String> userJopOpeningScrapDelete(
+    @DeleteMapping("/api/user/jobOpening/scrap/delete")
+    public @ResponseBody ApiUtil<String> userJopOpeningDeleteScrap(
             @RequestBody UserScrapRequest.UserScrapDeleteDTO userScrapDeleteDTO) {
         scrapService.채용공고스크랩삭제(1, userScrapDeleteDTO);
         return new ApiUtil<String>(true, "스크랩 삭제");

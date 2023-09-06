@@ -51,20 +51,20 @@ public class CommunityController {
     ////////////////////////////////////////////////////////////////////////////////////////////////////////
 
     // comp_ 커뮤니티 글 등록 화면
-    @GetMapping("comp/community/board/saveForm")
+    @GetMapping("/comp/community/board/saveForm")
     public String compBoardSaveForm() {
         return "comp/comp_community_write";
     }
 
     // user_ 커뮤니티 글 등록 화면
-    @GetMapping("user/community/board/saveForm")
+    @GetMapping("/user/community/board/saveForm")
     public String userBoardSaveForm() {
         return "user/user_community_write";
     }
 
     // comp_ 커뮤니티 글 작성
     // @SessionAttribute User sessionUser
-    @PostMapping("comp/community/board/save")
+    @PostMapping("/comp/community/board/save")
     public String compBoardSave(CommunityRequest.BoardSaveDTO boardSaveDTO) {
         communityService.게시물작성(1, boardSaveDTO);
         return "redirect:/comp/community";
@@ -72,7 +72,7 @@ public class CommunityController {
 
     // user_ 커뮤니티 글 작성
     // @SessionAttribute User sessionUser
-    @PostMapping("user/community/board/save")
+    @PostMapping("/user/community/board/save")
     public String userBoardSave(CommunityRequest.BoardSaveDTO boardSaveDTO) {
         communityService.게시물작성(1, boardSaveDTO);
         return "redirect:/user/community";
@@ -81,7 +81,7 @@ public class CommunityController {
     ////////////////////////////////////////////////////////////////////////////////////////////////////////
 
     // comp_ 커뮤니티 글 상세보기 화면
-    @GetMapping("comp/community/board/{id}")
+    @GetMapping("/comp/community/board/{id}")
     public String compBoardDetailForm(@PathVariable Integer id, Model model) {
         BoardDetailDTO boardDetailDTO = communityService.상세게시물(id);
         model.addAttribute("boardDetailDTO", boardDetailDTO);
@@ -89,7 +89,7 @@ public class CommunityController {
     }
 
     // user_ 커뮤니티 글 상세보기 화면
-    @GetMapping("user/community/board/{id}")
+    @GetMapping("/user/community/board/{id}")
     public String userBoardDetailForm(@PathVariable Integer id, Model model) {
         BoardDetailDTO boardDetailDTO = communityService.상세게시물(id);
         model.addAttribute("boardDetailDTO", boardDetailDTO);
@@ -100,7 +100,7 @@ public class CommunityController {
 
     // comp_ 커뮤니티 글 수정 화면
     // @SessionAttribute User sessionUser
-    @GetMapping("comp/community/board/{id}/updateForm")
+    @GetMapping("/comp/community/board/{id}/updateForm")
     public String compBoardUpdateForm(@PathVariable Integer id, Model model) {
         Community community = communityService.게시물내용(1, id);
         model.addAttribute("community", community);
@@ -109,7 +109,7 @@ public class CommunityController {
 
     // user_ 커뮤니티 글 수정 화면
     // @SessionAttribute User sessionUser
-    @GetMapping("user/community/board/{id}/updateForm")
+    @GetMapping("/user/community/board/{id}/updateForm")
     public String userBoardUpdateForm(@PathVariable Integer id, Model model) {
         Community community = communityService.게시물내용(1, id);
         model.addAttribute("community", community);
@@ -118,7 +118,7 @@ public class CommunityController {
 
     // comp_ 커뮤니티 글 수정
     // @SessionAttribute User sessionUser
-    @PostMapping("comp/community/board/{id}/update")
+    @PostMapping("/comp/community/board/{id}/update")
     public String compBoardUpdate(@PathVariable Integer id, CommunityRequest.BoardUpdateDTO boardUpdateDTO) {
         communityService.게시물수정(1, id, boardUpdateDTO);
         return "redirect:/comp/community/board/" + id;
@@ -126,7 +126,7 @@ public class CommunityController {
 
     // user_ 커뮤니티 글 수정
     // @SessionAttribute User sessionUser
-    @PostMapping("user/community/board/{id}/update")
+    @PostMapping("/user/community/board/{id}/update")
     public String userBoardUpdate(@PathVariable Integer id, CommunityRequest.BoardUpdateDTO boardUpdateDTO) {
         communityService.게시물수정(1, id, boardUpdateDTO);
         return "redirect:/user/community/board/" + id;
@@ -136,7 +136,7 @@ public class CommunityController {
 
     // comp_ 커뮤니티 글 삭제
     // @SessionAttribute User sessionUser
-    @PostMapping("comp/community/board/{id}/delete")
+    @PostMapping("/comp/community/board/{id}/delete")
     public String compBoardDelete(@PathVariable Integer id) {
         communityService.게시물삭제(1, id);
         return "redirect:/comp/community";
@@ -144,7 +144,7 @@ public class CommunityController {
 
     // user_ 커뮤니티 글 삭제
     // @SessionAttribute User sessionUser
-    @PostMapping("user/community/board/{id}/delete")
+    @PostMapping("/user/community/board/{id}/delete")
     public String userBoardDelete(@PathVariable Integer id) {
         communityService.게시물삭제(1, id);
         return "redirect:/user/community";

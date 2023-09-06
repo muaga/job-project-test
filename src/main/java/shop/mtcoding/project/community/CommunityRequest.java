@@ -5,6 +5,7 @@ import lombok.Setter;
 
 public class CommunityRequest {
 
+    // 글 저장 DTO
     @Getter
     @Setter
     public static class BoardSaveDTO {
@@ -14,6 +15,7 @@ public class CommunityRequest {
 
     }
 
+    // 글 수정 DTO
     @Getter
     @Setter
     public static class BoardUpdateDTO {

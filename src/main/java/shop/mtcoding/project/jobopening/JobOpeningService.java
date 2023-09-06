@@ -1,31 +1,28 @@
 package shop.mtcoding.project.jobopening;
 
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.scheduling.TaskScheduler;
 import org.springframework.stereotype.Service;
 
 import shop.mtcoding.project._core.error.ex.MyApiException;
 import shop.mtcoding.project._core.util.FormatDate;
 import shop.mtcoding.project._core.util.Split;
 import shop.mtcoding.project.jobopening.JobOpeningResponse.JobOpeningDetailDTO;
-import shop.mtcoding.project.position.Position;
-import shop.mtcoding.project.position.PositionResponse.PositionNameDTO;
+import shop.mtcoding.project.jobopening.JobOpeningResponse.JobOpeningMainDTO;
 import shop.mtcoding.project.position.RequiredPosition;
 import shop.mtcoding.project.position.RequiredPositionRepository;
+import shop.mtcoding.project.position.PositionResponse.PositionNameDTO;
 import shop.mtcoding.project.qualified.Qualified;
 import shop.mtcoding.project.qualified.QualifiedRepository;
 import shop.mtcoding.project.qualified.QualifiedResponse.QualifiedContentDTO;
-import shop.mtcoding.project.scrap.UserScrap;
-import shop.mtcoding.project.scrap.UserScrapRequest.UserScrapDTO;
 import shop.mtcoding.project.skill.RequiredSkill;
 import shop.mtcoding.project.skill.RequiredSkillRepository;
-import shop.mtcoding.project.skill.Skill;
-import shop.mtcoding.project.skill.SkillRepository;
 import shop.mtcoding.project.skill.SkillResponse.SkillNameDTO;
 import shop.mtcoding.project.task.Task;
 import shop.mtcoding.project.task.TaskRepository;
@@ -49,14 +46,84 @@ public class JobOpeningService {
     @Autowired
     private QualifiedRepository qualifiedRepository;
 
+    public List<JobOpeningMainDTO> 채용정보(Integer positionId) {
+        List<RequiredPosition> requiredPositionList = requiredPositionRepository.mfindByIdJoinPosition(positionId);
+
+        List<JobOpeningMainDTO> jobOpeningMainDTOList = new ArrayList<>();
+        for (RequiredPosition requiredPosition : requiredPositionList) {
+
+            // skillName을 담기 위한 List
+            List<String> skillName = new ArrayList<>();
+            for (RequiredSkill requiredSkill : requiredPosition.getJobOpening().getRequiredSkillList()) {
+                String skill = requiredSkill.getSkill().getSkill();
+                skillName.add(skill);
+            }
+
+            // 이중 for문을 방지하기 위해, 배열을 하나의 문자열로 만들기
+            String skillListString = String.join(" · ", skillName);
+
+            // 주소 포맷
+            String Address = requiredPosition.getJobOpening().getCompAddress();
+            String compAddressFormat = Split.AddressSplit(Address);
+
+            JobOpeningMainDTO jobOpeningMainDTO = JobOpeningMainDTO.builder()
+                    .jobOpeningId(requiredPosition.getJobOpening().getId())
+                    .titleList(requiredPosition.getJobOpening().getTitle())
+                    .compNameList(requiredPosition.getJobOpening().getUser().getUserName())
+                    .compAddressList(compAddressFormat)
+                    .careerList(requiredPosition.getJobOpening().getCareer())
+                    .careerYearList(requiredPosition.getJobOpening().getCareerYear())
+                    .skillList(skillListString)
+                    .build();
+            jobOpeningMainDTOList.add(jobOpeningMainDTO);
+        }
+
+        return jobOpeningMainDTOList;
+    }
+
+    public List<JobOpeningMainDTO> 메인화면() {
+        List<JobOpening> jobOpeningList = jobOpeningRepository.mfindByAllJoinJobOpeningAndUser();
+
+        // jobOpening을 담기 위한 List
+        List<JobOpeningMainDTO> jobOpeningMainDTOList = new ArrayList<>();
+        for (JobOpening jobOpening : jobOpeningList) {
+
+            // skillName을 담기 위한 List
+            List<String> skillName = new ArrayList<>();
+            for (RequiredSkill requiredSkill : jobOpening.getRequiredSkillList()) {
+                String skill = requiredSkill.getSkill().getSkill();
+                skillName.add(skill);
+            }
+
+            // 이중 for문을 방지하기 위해, 배열을 하나의 문자열로 만들기
+            String skillListString = String.join(" · ", skillName);
+
+            // 주소 포맷
+            String Address = jobOpening.getCompAddress();
+            String compAddressFormat = Split.AddressSplit(Address);
+
+            JobOpeningMainDTO jobOpeningMainDTO = JobOpeningMainDTO.builder()
+                    .jobOpeningId(jobOpening.getId())
+                    .titleList(jobOpening.getTitle())
+                    .compNameList(jobOpening.getUser().getUserName())
+                    .compAddressList(compAddressFormat)
+                    .careerList(jobOpening.getCareer())
+                    .careerYearList(jobOpening.getCareerYear())
+                    .skillList(skillListString)
+                    .build();
+            jobOpeningMainDTOList.add(jobOpeningMainDTO);
+        }
+        return jobOpeningMainDTOList;
+    }
+
     public JobOpeningDetailDTO 상세채용공고(Integer id) {
         Optional<JobOpening> jobOpeningOP = jobOpeningRepository.findById(id);
         if (jobOpeningOP.isPresent()) {
             JobOpening jobOpening = jobOpeningOP.get();
 
             // 연력 날짜포맷
-            String compCreatedAt = jobOpening.getUser().getCompHistory();
-            String compCreatedAtFormat = Split.YearDateSplit(compCreatedAt);
+            Date compCreatedAt = jobOpening.getUser().getCompHistory();
+            String compCreatedAtFormat = FormatDate.formatDateYear(compCreatedAt);
 
             // task - content - 가져오기
             List<Task> taskList = taskRepository.mfindByJobOpeningId(jobOpening.getId());
@@ -65,10 +132,8 @@ public class JobOpeningService {
                 TaskContentDTO taskContentDTO = TaskContentDTO.builder()
                         .taskContent(task.getTaskContent())
                         .build();
-
                 taskDetailDTOList.add(taskContentDTO);
             }
-
             // quelified - qualifiedContent - 가져오기
             List<Qualified> qualifiedList = qualifiedRepository.mfindByJobOpeningId(jobOpening.getId());
             List<QualifiedContentDTO> qualifiedContentDTOList = new ArrayList<>();
@@ -76,7 +141,6 @@ public class JobOpeningService {
                 QualifiedContentDTO qualifiedContentDTO = QualifiedContentDTO.builder()
                         .qualifiedContent(qualified.getQualifiedContent())
                         .build();
-
                 qualifiedContentDTOList.add(qualifiedContentDTO);
             }
 
@@ -94,13 +158,14 @@ public class JobOpeningService {
             // required Skill - name 가져오기
             List<RequiredSkill> requiredSkill = requiredSkillRepository.mfindByIdJoinSkill(jobOpening.getId());
             List<SkillNameDTO> skillNameDTOList = new ArrayList<>();
-            for (RequiredSkill rsList : requiredSkill) {
-                SkillNameDTO dtos = SkillNameDTO.builder()
-                        .skillName(rsList.getSkill().getSkill())
+            for (RequiredSkill skill : requiredSkill) {
+                String skillName = skill.getSkill().getSkill();
+                SkillNameDTO skillNameDTO = SkillNameDTO.builder()
+                        .skillName(skillName)
                         .build();
-                skillNameDTOList.add(dtos);
             }
 
+            // view를 하기 위한 DTO
             JobOpeningDetailDTO jobOpeningDetailDTO = JobOpeningDetailDTO.builder()
                     .jobOpeningId(jobOpening.getId())
                     .title(jobOpening.getTitle())

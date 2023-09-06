@@ -3,10 +3,12 @@ package shop.mtcoding.project.jobopening;
 import java.sql.Timestamp;
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import lombok.Builder;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 import shop.mtcoding.project.position.PositionResponse.PositionNameDTO;
 import shop.mtcoding.project.qualified.QualifiedResponse.QualifiedContentDTO;
@@ -15,6 +17,35 @@ import shop.mtcoding.project.task.TaskResponse.TaskContentDTO;
 
 public class JobOpeningResponse {
 
+    // 메인화면
+    @NoArgsConstructor
+    @Getter
+    @Setter
+    public static class JobOpeningMainDTO {
+
+        private Integer jobOpeningId;
+        private String titleList;
+        private String compNameList;
+        private String compAddressList;
+        private String careerList;
+        private String careerYearList;
+        private String skillList;
+
+        @Builder
+        public JobOpeningMainDTO(Integer jobOpeningId, String titleList, String compNameList, String compAddressList,
+                String careerList, String careerYearList, String skillList) {
+            this.jobOpeningId = jobOpeningId;
+            this.titleList = titleList;
+            this.compNameList = compNameList;
+            this.compAddressList = compAddressList;
+            this.careerList = careerList;
+            this.careerYearList = careerYearList;
+            this.skillList = skillList;
+        }
+    }
+
+    // 공고 상세보기 DTO
+    @NoArgsConstructor
     @Getter
     @Setter
     public static class JobOpeningDetailDTO {
@@ -35,16 +66,16 @@ public class JobOpeningResponse {
         private Timestamp createdAt;
 
         private List<TaskContentDTO> taskList = new ArrayList<>();
+        private List<QualifiedContentDTO> qulifiedList = new ArrayList<>();
         private List<SkillNameDTO> requiredSkillList = new ArrayList<>();
         private List<PositionNameDTO> requiredPositionList = new ArrayList<>();
-        private List<QualifiedContentDTO> qulifiedList = new ArrayList<>();
 
         @Builder
         public JobOpeningDetailDTO(Integer jobOpeningId, String title, String process, String career, String careerYear,
                 String edu, String compName, String compAddress, String compIntro, String compPicUrl,
-                String compFormatCreatedAt, LocalDate deadLine, Timestamp createdAt,
-                List<TaskContentDTO> taskList, List<SkillNameDTO> requiredSkillList,
-                List<PositionNameDTO> requiredPositionList, List<QualifiedContentDTO> qulifiedList) {
+                String compFormatCreatedAt, LocalDate deadLine, Timestamp createdAt, List<TaskContentDTO> taskList,
+                List<SkillNameDTO> requiredSkillList, List<PositionNameDTO> requiredPositionList,
+                List<QualifiedContentDTO> qulifiedList) {
             this.jobOpeningId = jobOpeningId;
             this.title = title;
             this.process = process;
@@ -63,7 +94,6 @@ public class JobOpeningResponse {
             this.requiredPositionList = requiredPositionList;
             this.qulifiedList = qulifiedList;
         }
-
     }
 
 }

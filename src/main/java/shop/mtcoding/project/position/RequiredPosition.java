@@ -26,10 +26,10 @@ public class RequiredPosition {
     private Integer id;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    private Position position;
+    private JobOpening jobOpening;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    private JobOpening jobOpening;
+    private Position position;
 
     @Builder
     public RequiredPosition(Integer id, JobOpening jobOpening, Position position) {

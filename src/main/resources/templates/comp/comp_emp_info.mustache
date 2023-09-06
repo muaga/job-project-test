@@ -1,216 +1,205 @@
 {{>layout/compheader}}
-    
-    <!-- 메인 -->
-    <!-- 각자 페이지 main 클래스에 name 작성-->
-    <!-- main 클래스에 background-color를 넣을거면 class="common_bg" 넣어주기 -->
-    <main class="emp_info main_page">
-      <div class="container">
-          <!-- container 건들지 말기 -->
-          <!-- 여기서부터 시작 -->
-          <div class="position_box">
-            <div class="position_tab">
-                <ul class="position_category">
-                    <li>
-                        <a href="#" class="">전체</a>
-                    </li>
-                    <li>
-                        <a href="#" class="">서버 백엔드 개발자</a>
-                    </li>
-                    <li>
-                        <a href="#" class="position_active">프론트 엔드 개발자</a>
-                    </li>
-                    <li>
-                        <a href="#" class="">웹 풀스택 개발자</a>
-                    </li>
-                    <li>
-                        <a href="#" class="">안드로이드 개발자</a>
-                    </li>
-                    <li>
-                        <a href="#">IOS개발자</a>
-                    </li>
-                    <li>
-                        <a href="#">크로스 플랫폼 개발자</a>
-                    </li>
-                </ul>
-            </div>
-            <ul class="position_menu">
-                <li class="position_skill com_skill position_active">
-                    <span class="skill_box">MySQL</span>
-                    <span class="skill_box">Spring</span>
-                    <span class="skill_box">Java</span>
-                    <span class="skill_box">HTML/CSS</span>
-                    <span class="skill_box">JavaScript</span>
-                    <span class="skill_box">React</span>
-                </li>
 
-                <li class="position_skill com_skill">
-                    <span class="skill_box">MySQL</span>
-                    <span class="skill_box">Spring</span>
-                    <span class="skill_box">Java</span>
+<!-- 메인 -->
+<!-- 각자 페이지 main 클래스에 name 작성-->
+<!-- main 클래스에 background-color를 넣을거면 class="common_bg" 넣어주기 -->
+<main class="emp_info main_page">
+  <div class="container">
+    <!-- container 건들지 말기 -->
+    <!-- 여기서부터 시작 -->
+    <div class="position_box">
+      <div class="position_tab">
+        <ul class="position_category" id="gubun">
+          <li>
+            <a href="#" class="">전체</a>
+          </li>
+          {{#positionList}}
+          <li>
+            <a href="#" data-positionId="{{id}}">{{position}}</a>
+          </li>
+          {{/positionList}}
+        </ul>
+      </div>
+      <ul class="position_menu">
+        <li class="position_skill com_skill position_active">
+          <a href="#" class="skill_box">Java</a>
+          <a href="#" class="skill_box">JavaScript</a>
+          <a href="#" class="skill_box">Spring Boot</a>
+          <a href="#" class="skill_box">Python</a>
+          <a href="#" class="skill_box">C++</a>
+          <a href="#" class="skill_box">Kotlin</a>
+          <a href="#" class="skill_box">Swift</a>
+          <a href="#" class="skill_box">MySQL</a>
+          <a href="#" class="skill_box">jQuery</a>
+          <a href="#" class="skill_box">HTML</a>
+          <a href="#" class="skill_box">Flutter</a>
+          <a href="#" class="skill_box">JSP</a>
+          <a href="#" class="skill_box">React</a>
+          <a href="#" class="skill_box">React Native</a>
+          <a href="#" class="skill_box">Vue.js</a>
+          <a href="#" class="skill_box">OpenCV</a>
+          <a href="#" class="skill_box">PyTorch</a>
+          <a href="#" class="skill_box">Oracle</a>
+          <a href="#" class="skill_box">AWS</a>
+        </li>
 
-                </li>
+        <li class="position_skill com_skill">
+          {{#skillNameList}}
+          <a href="#" class="skill_box">{{skillName}}</a>
+          {{/skillNameList}}
+        </li>
 
-                <li class="position_skill com_skill">
-                    <span class="skill_box">HTML/CSS</span>
-                    <span class="skill_box">JavaScript</span>
-                    <span class="skill_box">React</span>
-                </li>
+        <li class="position_skill com_skill">
+          <a href="#" class="skill_box">JavaScript</a>
+          <a href="#" class="skill_box">React</a>
+          <a href="#" class="skill_box">Vue.js</a>
+          <a href="#" class="skill_box">HTML</a>
+          <a href="#" class="skill_box">jQuery</a>
+        </li>
 
-                <li class="position_skill com_skill">
-                    <span class="skill_box">
-                        4
-                    </span>
-                </li>
-                <li class="position_skill com_skill">
-                    <span class="skill_box">
-                        5
-                    </spa>
-                </li>
-                <li class="position_skill com_skill">
-                    <span class="skill_box">
-                        6
-                    </span>
-                </li>
-                <li class="position_skill com_skill">
-                    <span class="skill_box">
-                        7
-                    </span>
-                </li>
-            </ul>
-        </div>
-        <div class="position_select">
-            <select class="select select_skill">
-                <option disabled selected>기술스택</option>
-                <option>java</option>
-                <option>javaScript</option>
-            </select>
-            <select class="select select_edu">
-                <option disabled selected>경력</option>
-                <option>java</option>
-                <option>javaScript</option>
-            </select>
-            <select class="select select_adr">
-                <option disabled selected>지역</option>
-                <option>java</option>
-                <option>javaScript</option>
-            </select>
-        </div>
-        <div class="main_box">
-          <ul class="com_cont com_box">
-            <li class="comp_item">
-              <a href="comp_job_opening_detail.html">
-                <ul class="comp_cont">
-                  <li class="comp_img">
-                    <img src="image/company_img/comp_img01.png" alt="기업01">
-                  </li>
-                  <li class="com_name">
-                      모트렉스
-                  </li>
-                  <li class="com_tit">
-                    <h4>웹개발(백엔드,프론트엔드)</43>
-                  </li>
-                  <li class="com_txt">
-                    CSS3·jQuery·Linux·JavaScript
-                  </li>
-                  <li class="com_etc">
-                    <span class="com_adr">서울 영등포구</span>
-                    <span class="com_car">경력 5-15년</span>
-                  </li>
-                </ul>
-              </a>
+        <li class="position_skill com_skill">
+          <a href="#" class="skill_box">Java</a>
+          <a href="#" class="skill_box">React</a>
+          <a href="#" class="skill_box">Vue.js</a>
+          <a href="#" class="skill_box">HTML</a>
+          <a href="#" class="skill_box">jQuery</a>
+        </li>
+
+        <li class="position_skill com_skill">
+          <a href="#" class="skill_box">Kotlin</a>
+          <a href="#" class="skill_box">Java</a>
+          <a href="#" class="skill_box">C++</a>
+        </li>
+
+        <li class="position_skill com_skill">
+          <a href="#" class="skill_box">JavaScript</a>
+          <a href="#" class="skill_box">Flutter</a>
+          <a href="#" class="skill_box">React</a>
+        </li>
+
+        <li class="position_skill com_skill">
+          <a href="#" class="skill_box">Java</a>
+          <a href="#" class="skill_box">Python</a>
+          <a href="#" class="skill_box">PyTorch</a>
+        </li>
+
+        <li class="position_skill com_skill">
+          <a href="#" class="skill_box">Java</a>
+          <a href="#" class="skill_box">Python</a>
+          <a href="#" class="skill_box">C++</a>
+          <a href="#" class="skill_box">OpenCV</a>
+        </li>
+      </ul>
+    </div>
+
+
+
+    <div class="position_select">
+      <select class="select select_skill">
+        <option disabled selected>기술스택</option>
+        <option>java</option>
+        <option>javaScript</option>
+      </select>
+      <select class="select select_edu">
+        <option disabled selected>경력</option>
+        <option>java</option>
+        <option>javaScript</option>
+      </select>
+      <select class="select select_adr">
+        <option disabled selected>지역</option>
+        <option>java</option>
+        <option>javaScript</option>
+      </select>
+    </div>
+    <div class="main_box" id="position-box">
+
+    </div>
+  </div>
+  <script>
+    // 포지션 리스트 클릭 시 이벤트 처리
+    $("#gubun a").click(function () {
+      var positionId = $(this).attr("positionId"); // 클릭한 포지션의 ID
+      // AJAX를 사용하여 서버에서 해당 포지션에 대한 데이터 가져오기
+      $.ajax({
+        url: "/api/skill/select?positionId=" + positionId, // 적절한 엔드포인트 URL로 변경
+        type: "GET",
+        dataType: "json",
+        success: function (data) {
+          // 서버에서 받은 데이터를 화면에 업데이트
+          updatePositionData(data);
+        },
+        error: function (error) {
+          console.error("데이터를 가져오는 중 에러 발생: " + error);
+        }
+      });
+    });
+
+    // 서버에서 받은 데이터로 화면 업데이트
+    function updatePositionData(data) {
+      // 여기서 data를 사용하여 필요한 HTML 요소를 업데이트
+      // 예를 들어, positionList에 대한 데이터를 사용하여 화면을 업데이트할 수 있음
+      var positionList = data.positionList;
+      // 화면 업데이트 로직을 작성하여 positionList를 사용
+    }
+
+    render(1);
+    // 1. 셀렉트 박스 변경될 때 마다, 화면 갱신
+    $("#gubun").change(() => {
+      let value = $("#gubun").val();
+      alert(value);
+      render(value);
+    });
+
+    // 2. 통신해서 화면 다시 그리기
+    async function render(gubun) {
+      $("#position-box").html('');
+      let responseBody = await download(gubun);
+      responseBody.forEach((jobOpeningMainDTO) => {
+        $("#position-box").append(positionBox(jobOpeningMainDTO));
+      });
+
+      // 3. 컴퍼넌트 (디자인 결합)
+      function positionBox(jobOpeningMainDTO) {
+        return `
+      <li class="comp_item">
+        <a href="/comp/jobOpening/{{jobOpeningMainDTO.jobOpeningId}}">
+          <ul class="comp_cont">
+            <li class="comp_img">
+              <img src="/image/company_img/comp_img01.png" alt="기업01">
             </li>
-            <li class="comp_item">
-              <a href="comp_job_opening_detail.html">
-                <ul class="comp_cont">
-                  <li class="comp_img">
-                    <img src="image/company_img/comp_img01.png" alt="기업01">
-                  </li>
-                  <li class="com_name">
-                      모트렉스
-                  </li>
-                  <li class="com_tit">
-                    <h4>웹개발(백엔드,프론트엔드)</43>
-                  </li>
-                  <li class="com_txt">
-                    CSS3·jQuery·Linux·JavaScript
-                  </li>
-                  <li class="com_etc">
-                    <span class="com_adr">서울 영등포구</span>
-                    <span class="com_car">경력 5-15년</span>
-                  </li>
-                </ul>
-              </a>
+            <li class="com_name">
+              {{jobOpeningMainDTO.compNameList}}
             </li>
-            <li class="comp_item">
-              <a href="comp_job_opening_detail.html">
-                <ul class="comp_cont">
-                  <li class="comp_img">
-                    <img src="image/company_img/comp_img01.png" alt="기업01">
-                  </li>
-                  <li class="com_name">
-                      모트렉스
-                  </li>
-                  <li class="com_tit">
-                    <h4>웹개발(백엔드,프론트엔드)</43>
-                  </li>
-                  <li class="com_txt">
-                    CSS3·jQuery·Linux·JavaScript
-                  </li>
-                  <li class="com_etc">
-                    <span class="com_adr">서울 영등포구</span>
-                    <span class="com_car">경력 5-15년</span>
-                  </li>
-                </ul>
-              </a>
+            <li class="com_tit">
+              <h4>{{jobOpeningMainDTO.titleList}}</h4>
             </li>
-            <li class="comp_item">
-              <a href="comp_job_opening_detail.html">
-                <ul class="comp_cont">
-                  <li class="comp_img">
-                    <img src="image/company_img/comp_img01.png" alt="기업01">
-                  </li>
-                  <li class="com_name">
-                      모트렉스
-                  </li>
-                  <li class="com_tit">
-                    <h4>웹개발(백엔드,프론트엔드)</43>
-                  </li>
-                  <li class="com_txt">
-                    CSS3·jQuery·Linux·JavaScript
-                  </li>
-                  <li class="com_etc">
-                    <span class="com_adr">서울 영등포구</span>
-                    <span class="com_car">경력 5-15년</span>
-                  </li>
-                </ul>
-              </a>
+            <li class="com_txt">
+              <p>{{jobOpeningMainDTO.skillList}}</p>
             </li>
-            <li class="comp_item">
-              <a href="comp_job_opening_detail.html">
-                <ul class="comp_cont">
-                  <li class="comp_img">
-                    <img src="image/company_img/comp_img01.png" alt="기업01">
-                  </li>
-                  <li class="com_name">
-                      모트렉스
-                  </li>
-                  <li class="com_tit">
-                    <h4>웹개발(백엔드,프론트엔드)</43>
-                  </li>
-                  <li class="com_txt">
-                    CSS3·jQuery·Linux·JavaScript
-                  </li>
-                  <li class="com_etc">
-                    <span class="com_adr">서울 영등포구</span>
-                    <span class="com_car">경력 5-15년</span>
-                  </li>
-                </ul>
-              </a>
+            <li class="com_etc">
+              <span class="com_adr">
+                <p>{{jobOpeningMainDTO.compAddressList}}</p>
+              </span>
+              <span class="com_car">
+                <p>{{jobOpeningMainDTO.careerList}}</p>
+                <p>{{jobOpeningMainDTO.careerYearList}}</p>
+              </span>
             </li>
           </ul>
-        </div>
-      </div>
-    </main>
-    <!-- 메인 -->
+        </a>
+      </li>`;
+      }
+
+      // 4. 통신코드
+      async function download(gubun) {
+        let response = await fetch("/api/jobOpening/select?gubun=" + gubun);
+        let responseBody = await response.json();
+        return responseBody;
+      }
+    }
+  </script>
+
+</main>
+<!-- 메인 -->
 
 {{>layout/footer}}
