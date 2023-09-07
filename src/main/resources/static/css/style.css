@@ -163,6 +163,11 @@ main>.container {
   margin: 48px 0;
 }
 
+.skill>ul {
+  display: flex;
+  flex-wrap: wrap;
+}
+
 .com_skill {
   margin-top: 10px;
 }
@@ -172,19 +177,6 @@ main>.container {
   margin-right: 5px;
   display: inline-block;
   padding: 6px 20px;
-}
-
-.com_skill>a {
-  border-radius: 30px;
-  margin-right: 5px;
-  display: inline-block;
-  padding: 6px 20px;
-}
-
-.position_skill>a:hover {
-  transition: all 0.3s;
-  background-color: var(--point_01);
-  color: var(--back_01);
 }
 
 .skill_box {
@@ -212,7 +204,7 @@ main>.container {
   align-items: center;
 }
 
-.double_btn>form>button {
+.double_btn form button {
   padding: 10px;
   border-radius: 5px;
   font-size: 14px;
@@ -382,8 +374,9 @@ main>.container {
 
 .main_box {
   margin-bottom: 32px;
-  display: flex;
   list-style-type: none;
+  display: flex;
+  flex-wrap: wrap;
 }
 
 /* footer */
@@ -962,6 +955,14 @@ footer li:last-child {
   margin-bottom: 48px;
 }
 
+.career-flex {
+  display: flex;
+}
+
+.career-flex>p {
+  margin-right: 14px;
+}
+
 .job_opening .want li {
   list-style: disc;
   margin: 10px 22px;
@@ -1032,6 +1033,18 @@ footer li:last-child {
   border-top: transparent;
   border-color: var(--font_02);
   text-align: center;
+}
+
+.apply_company_user_apply {
+  padding: 14px;
+  border: 1px solid;
+  border-color: var(--font_02);
+  border-top: none;
+  text-align: center;
+  width: 100%;
+  position: sticky;
+  top: 280px;
+  max-width: 396px;
 }
 
 .apply_company_img {
@@ -1708,6 +1721,10 @@ footer li:last-child {
   margin-top: 20px;
   width: 100%;
   justify-content: center;
+}
+
+.resume_details .scrap_btn button {
+  padding: 10px;
 }
 
 .resume_details .double_btn button {

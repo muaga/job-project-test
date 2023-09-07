@@ -102,4 +102,10 @@ public class JobOpeningController {
         return jobOpeningMainDTO;
     }
 
+    @GetMapping("/api/jobOpening/select/all")
+    public @ResponseBody List<JobOpeningMainDTO> jobOpeningSelectAll() {
+        List<JobOpeningMainDTO> jobOpeningMainDTO = jobOpeningService.메인화면();
+        return jobOpeningMainDTO;
+    }
+
 }

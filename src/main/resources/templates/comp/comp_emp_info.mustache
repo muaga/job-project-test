@@ -11,7 +11,7 @@
       <div class="position_tab">
         <ul class="position_category" id="position">
           <li>
-            <a href="#" class="">전체</a>
+            <a href="#" class="" onclick="handleAllClick()">전체</a>
           </li>
           {{#positionList}}
           <li>
@@ -34,13 +34,32 @@
     <div class="position_select">
       <select class="select select_edu">
         <option disabled selected>경력</option>
-        <option>java</option>
-        <option>javaScript</option>
+        <option>신입</option>
+        <option>1년차</option>
+        <option>2년차</option>
+        <option>3년차</option>
+        <option>4년차</option>
+        <option>5년차</option>
       </select>
       <select class="select select_adr">
         <option disabled selected>지역</option>
-        <option>java</option>
-        <option>javaScript</option>
+        <option>전국</option>
+        <option>서울</option>
+        <option>경기</option>
+        <option>인천</option>
+        <option>부산</option>
+        <option>대구</option>
+        <option>광주</option>
+        <option>대전</option>
+        <option>울산</option>
+        <option>세종</option>
+        <option>충북</option>
+        <option>충남</option>
+        <option>전북</option>
+        <option>전남</option>
+        <option>경북</option>
+        <option>경남</option>
+        <option>제주</option>
       </select>
     </div>
     <div class="main_box" id="position-box">
@@ -51,7 +70,24 @@
 
   <script>
 
-    render(1, 'position');
+    render(null, 'all');
+
+    $(document).ready(function () {
+      // 초기 데이터를 불러오는 AJAX 요청
+      async function loadInitialData() {
+        let responseBody = await download(null, 'all'); // null과 'all'을 전달하여 초기값을 설정
+        responseBody.forEach((jobOpening) => {
+          $("#position-box").append(jobOpeningBox(jobOpening));
+        });
+      }
+    });
+
+    // 페이지 로드 시 초기 데이터를 불러옵니다.
+    loadInitialData();
+
+    function handleAllClick() {
+      render(null, 'all');
+    }
 
     function handlePositionClick(positionId) {
       render(positionId, 'position');
@@ -61,10 +97,8 @@
       render(skillId, 'skill');
     }
 
-    $(document).ready(function () {
-      $("#position-1").click();
-      $("#skill-1").click();
-    });
+    $("#position-1").click();
+    $("#skill-1").click();
 
     // 2. 통신해서 화면 다시 리기
     async function render(id, type) {
@@ -80,7 +114,7 @@
       function jobOpeningBox(jobOpening) {
         return `
         <li class="comp_item">
-          <a href="/user/jobopening/${jobOpening.jobOpeningId}">
+          <a href="/user/jobOpening/${jobOpening.jobOpeningId}">
             <ul class="comp_cont">
               <li class="comp_img">
                 <img src="/image/company_img/comp_img01.png" alt="기업01">
