@@ -74,7 +74,13 @@ main>.container {
   padding-bottom: 0;
 }
 
-.com_etc>span {
+.com_etc {
+  display: flex;
+  position: relative;
+}
+
+/* 
+.com_etc>.com_etc>span {
   display: inline-block;
   color: var(--font_02);
   font-size: 14px;
@@ -82,23 +88,57 @@ main>.container {
   padding-right: 10px;
 }
 
-.com_etc>span::after {
+.com_etc>span.com_car::after {
   content: "";
   position: absolute;
-  top: 0;
-  right: 0;
+  top: 2px;
+  left: 87px;
   width: 1px;
   height: 15px;
   background-color: var(--font_02);
+} */
+
+
+.com_etc>.com_etc>span>p {
+  display: inline-block;
+  color: var(--font_02);
+  font-size: 12px;
+  position: relative;
+  padding-right: 10px;
 }
 
-.com_etc>span:nth-child(2) {
-  padding-left: 7px;
+/* .com_etc>span>p::after {
+  content: "";
+  position: absolute;
+  top: 2px;
+  left: 87px;
+  width: 1px;
+  height: 15px;
+  background-color: var(--font_02); */
+
+.com_etc .com_adr {
+  display: flex;
 }
 
-.com_etc>span:last-child::after {
-  height: 0;
-  width: 0;
+.com_etc .com_car {
+  display: flex;
+}
+
+.compaddress {
+  padding-right: 12px;
+}
+
+.career {
+  padding: 0 6px 0 0;
+}
+
+.com_etc>span {
+  display: inline-block;
+  padding: 0 6px;
+}
+
+.com_etc>span:first-child {
+  padding-left: 0;
 }
 
 .com_name {

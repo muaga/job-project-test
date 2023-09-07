@@ -13,4 +13,10 @@ public class splitTest {
         System.out.println("테스트 : " + year);
     }
 
+    @Test
+    public void split2_test() {
+        String address = "창원시 그린동 무지개아파트 350-2호";
+        String formatAddress = Split.AddressSplit(address);
+        System.out.println("테스트 : " + formatAddress);
+    }
 }

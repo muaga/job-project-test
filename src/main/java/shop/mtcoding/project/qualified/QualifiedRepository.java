@@ -7,8 +7,12 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
 public interface QualifiedRepository extends JpaRepository<Qualified, Integer> {
+    @Query("select q from Qualified q where q.qualifiedContent = :qualifiedContent")
+    Qualified findByQualName(@Param("qualifiedContent") String qualifiedContent);
+
+    @Query("select t from Qualified t where t.jobOpening.id = :jobOpeningId")
+    List<Qualified> findByJobOpeningId(@Param("jobOpeningId") Integer jobOpeningId);
 
     @Query("select q from Qualified q where q.jobOpening.id = :id")
     List<Qualified> mfindByJobOpeningId(@Param("id") Integer id);
-
 }

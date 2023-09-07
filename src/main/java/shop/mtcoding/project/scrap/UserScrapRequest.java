@@ -1,7 +1,5 @@
 package shop.mtcoding.project.scrap;
 
-import java.sql.Timestamp;
-
 import lombok.Getter;
 import lombok.Setter;
 

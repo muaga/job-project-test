@@ -2,7 +2,6 @@ package shop.mtcoding.project.reply;
 
 import java.util.Optional;
 
-import javax.servlet.http.HttpSession;
 import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,8 +9,6 @@ import org.springframework.stereotype.Service;
 
 import shop.mtcoding.project._core.error.ex.MyException;
 import shop.mtcoding.project.community.Community;
-import shop.mtcoding.project.community.CommunityRequest;
-import shop.mtcoding.project.reply.ReplyRequest.ReplySaveDTO;
 import shop.mtcoding.project.user.User;
 
 @Service
