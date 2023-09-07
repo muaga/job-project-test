@@ -108,4 +108,19 @@ public class JobOpeningController {
         return jobOpeningMainDTO;
     }
 
+    @GetMapping("/api/jobOpening/select/career")
+    public @ResponseBody List<JobOpeningMainDTO> jobOpeningSelectByCareer(@RequestParam Integer careerId) {
+        // 경력(experienceId)을 기반으로 데이터 필터링
+        List<JobOpeningMainDTO> jobOpeningMainDTO = jobOpeningService.경력선택(careerId);
+        return jobOpeningMainDTO;
+    }
+
+    @GetMapping("/api/jobOpening/select/location")
+    public @ResponseBody List<JobOpeningMainDTO> jobOpeningSelectByLocation(
+            @RequestParam(defaultValue = "1") Integer locationId) {
+        // 지역(locationId)을 기반으로 데이터 필터링
+        List<JobOpeningMainDTO> jobOpeningMainDTO = jobOpeningService.지역선택(locationId);
+        return jobOpeningMainDTO;
+    }
+
 }

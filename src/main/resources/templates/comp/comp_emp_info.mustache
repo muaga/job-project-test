@@ -32,34 +32,35 @@
 
 
     <div class="position_select">
-      <select class="select select_edu">
+      <select class="select select_edu" id="career">
         <option disabled selected>경력</option>
-        <option>신입</option>
-        <option>1년차</option>
-        <option>2년차</option>
-        <option>3년차</option>
-        <option>4년차</option>
-        <option>5년차</option>
+        <option value="1">신입</option>
+        <option value="2">1년차</option>
+        <option value="3">2년차</option>
+        <option value="4">3년차</option>
+        <option value="5">4년차</option>
+        <option value="6">5년차</option>
       </select>
-      <select class="select select_adr">
+
+      <select class="select select_adr" id="location">
         <option disabled selected>지역</option>
-        <option>전국</option>
-        <option>서울</option>
-        <option>경기</option>
-        <option>인천</option>
-        <option>부산</option>
-        <option>대구</option>
-        <option>광주</option>
-        <option>대전</option>
-        <option>울산</option>
-        <option>세종</option>
-        <option>충북</option>
-        <option>충남</option>
-        <option>전북</option>
-        <option>전남</option>
-        <option>경북</option>
-        <option>경남</option>
-        <option>제주</option>
+        <option value="1">전국</option>
+        <option value="2">서울</option>
+        <option value="3">경기</option>
+        <option value="4">인천</option>
+        <option value="5">부산</option>
+        <option value="6">대구</option>
+        <option value="7">광주</option>
+        <option value="8">대전</option>
+        <option value="9">울산</option>
+        <option value="10">세종</option>
+        <option value="11">충북</option>
+        <option value="12">충남</option>
+        <option value="13">전북</option>
+        <option value="14">전남</option>
+        <option value="15">경북</option>
+        <option value="16">경남</option>
+        <option value="17">제주</option>
       </select>
     </div>
     <div class="main_box" id="position-box">
@@ -99,6 +100,20 @@
 
     $("#position-1").click();
     $("#skill-1").click();
+
+    $("#career").change(() => {
+      let value = $("#career").val();
+      alert(value);
+      render(value);
+    });
+
+    async function render(career) {
+      $("#position-box").html('');
+      let responseBody = await download02(career);
+      responseBody.forEach((select) => {
+        $("#position-box").append(jobOpeningBox(jobOpening));
+      });
+    }
 
     // 2. 통신해서 화면 다시 리기
     async function render(id, type) {
@@ -151,6 +166,12 @@
         let response = await fetch(`/api/jobOpening/select/${type}?${type}Id=${id}`);
         let responseBody = await response.json();
         console.log(responseBody);
+        return responseBody;
+      }
+
+      async function download02(career) {
+        let response = await fetch("/api/product?career=" + career);
+        let responseBody = await response.json();
         return responseBody;
       }
     }

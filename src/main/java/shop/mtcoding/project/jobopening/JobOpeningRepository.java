@@ -16,4 +16,8 @@ public interface JobOpeningRepository extends JpaRepository<JobOpening, Integer>
     @Query("select j from JobOpening as j left join fetch j.user as ju")
     List<JobOpening> mfindByAllJoinJobOpeningAndUser();
 
+    @Query("select j from JobOpening j where j.career = :selectedCareer or j.careerYear = :selectedCareerYear")
+    List<JobOpening> findBySelectedCareerOrCareerYear(@Param("selectedCareer") String selectedCareer,
+            @Param("selectedCareerYear") String selectedCareerYear);
+
 }
