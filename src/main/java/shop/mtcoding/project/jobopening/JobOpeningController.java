@@ -74,7 +74,6 @@ public class JobOpeningController {
         JobOpeningDetailDTO jobOpeningDetailDTO = jobOpeningService.상세채용공고(id);
         ResumeInJobOpeningDTO resumeInJobOpeningDTO = resumeService.지원화면();
         model.addAttribute("jobOpeningDetailDTO", jobOpeningDetailDTO);
-        System.out.println("테스트 : " + jobOpeningDetailDTO.getRequiredSkillList().size());
         model.addAttribute("resumeInJobOpeningDTO", resumeInJobOpeningDTO);
         return "user/user_job_opening_apply";
     }
@@ -87,13 +86,8 @@ public class JobOpeningController {
         List<Skill> skillList = skillService.스킬이름();
         model.addAttribute("positionList", positionList);
         model.addAttribute("skillList", skillList);
+        model.addAttribute("positionList", positionList);
         return "comp/comp_emp_info";
-    }
-
-    @GetMapping("/api/skill/select")
-    public List<PositionAndSkillNameDTO> skillSelect(@RequestParam Integer positionId) {
-        List<PositionAndSkillNameDTO> skillNameList = positionAndSkillService.포지션과스킬(positionId);
-        return skillNameList;
     }
 
     @GetMapping("/api/jobOpening/select/position")
@@ -107,4 +101,5 @@ public class JobOpeningController {
         List<JobOpeningMainDTO> jobOpeningMainDTO = jobOpeningService.스킬별채용정보(skillId);
         return jobOpeningMainDTO;
     }
+
 }

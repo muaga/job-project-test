@@ -17,6 +17,10 @@ public class RequiredSkillRepositoryTest {
         List<RequiredSkill> rs = requiredSkillRepository.mfindByAllJoinSkillAndJobOpening();
         for (RequiredSkill requiredSkill : rs) {
             System.out.println("테스트 : " + requiredSkill.getJobOpening().getUser().getUserName());
+            System.out.println("테스트 : " + requiredSkill.getJobOpening().getId());
+            System.out.println("테스트 : " + requiredSkill.getJobOpening().getUser().getUserName());
+            System.out.println("테스트 : " + requiredSkill.getJobOpening().getCareer());
+            System.out.println("테스트 : " + requiredSkill.getJobOpening().getCareerYear());
             System.out.println("테스트 : " + requiredSkill.getSkill().getSkill());
         }
     }

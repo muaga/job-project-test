@@ -1,5 +1,6 @@
 package shop.mtcoding.project.jobopening;
 
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
@@ -122,7 +123,6 @@ public class JobOpeningService {
             JobOpening jobOpening = jobOpeningOP.get();
 
             // 연력 날짜포맷
-
             Date compCreatedAt = jobOpening.getUser().getCompHistory();
             String compCreatedAtFormat = FormatDate.formatDateYear(compCreatedAt);
 
@@ -165,7 +165,6 @@ public class JobOpeningService {
                         .skillName(skillName)
                         .build();
                 skillNameDTOList.add(skillNameDTO);
-
             }
 
             // view를 하기 위한 DTO

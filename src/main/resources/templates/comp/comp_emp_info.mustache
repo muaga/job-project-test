@@ -51,6 +51,8 @@
 
   <script>
 
+    render(1, 'position');
+
     function handlePositionClick(positionId) {
       render(positionId, 'position');
     }
@@ -117,13 +119,6 @@
         console.log(responseBody);
         return responseBody;
       }
-
-      // async function download(id) {
-      //   let response = await fetch("/api/jobOpening/select/skill?skillId=" + id);
-      //   let responseBody = await response.json();
-      //   console.log(responseBody);
-      //   return responseBody;
-      // }
     }
     console.log("통신다운로드")
   </script>

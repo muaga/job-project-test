@@ -35,22 +35,22 @@ import shop.mtcoding.project.user.User;
 public class ResumeService {
 
     @Autowired
-    ResumeRepository resumeRepository;
+    private ResumeRepository resumeRepository;
 
     @Autowired
     private HttpSession session;
 
     @Autowired
-    PositionRepository positionRepository;
+    private PositionRepository positionRepository;
 
     @Autowired
-    WishPositionRepository wishPositionRepository;
+    private WishPositionRepository wishPositionRepository;
 
     @Autowired
-    SkillRepository skillRepository;
+    private SkillRepository skillRepository;
 
     @Autowired
-    HasSkillRepository hasSkillRepository;
+    private HasSkillRepository hasSkillRepository;
 
     @Transactional
     public void 이력서작성(ResumeRequest.UserSaveResumeDTO userSaveResumeDTO, int sessionUserId) {
