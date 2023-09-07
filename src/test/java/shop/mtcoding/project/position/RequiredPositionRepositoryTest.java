@@ -19,13 +19,6 @@ public class RequiredPositionRepositoryTest {
     private PositionRepository positionRepository;
 
     @Test
-    public void mfindByPositionId_test() {
-        List<RequiredPosition> rp = requiredPositionRepository.mfindByPositionId(1);
-        System.out.println("테스트 : " + rp.size());
-        System.out.println("테스트 : " + rp.get(0).getJobOpening().getTitle());
-    }
-
-    @Test
     public void findAll_test() {
         List<Position> positionList = positionRepository.findAll();
         for (Position positionName : positionList) {

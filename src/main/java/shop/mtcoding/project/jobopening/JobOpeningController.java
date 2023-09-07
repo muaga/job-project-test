@@ -21,6 +21,8 @@ import shop.mtcoding.project.position.Position;
 import shop.mtcoding.project.position.PositionService;
 import shop.mtcoding.project.resume.ResumeService;
 import shop.mtcoding.project.resume.ResumeResponse.ResumeInJobOpeningDTO;
+import shop.mtcoding.project.skill.Skill;
+import shop.mtcoding.project.skill.SkillService;
 
 @Controller
 public class JobOpeningController {
@@ -33,6 +35,9 @@ public class JobOpeningController {
 
     @Autowired
     private PositionService positionService;
+
+    @Autowired
+    private SkillService skillService;
 
     @Autowired
     private PositionAndSkillService positionAndSkillService;
@@ -79,20 +84,27 @@ public class JobOpeningController {
     @GetMapping("/comp/jobOpening/select")
     public String compJobOpeningSelectForm(Model model) {
         List<Position> positionList = positionService.포지션이름();
+        List<Skill> skillList = skillService.스킬이름();
         model.addAttribute("positionList", positionList);
+        model.addAttribute("skillList", skillList);
         return "comp/comp_emp_info";
     }
 
     @GetMapping("/api/skill/select")
-    public @ResponseBody List<PositionAndSkillNameDTO> skillSelect(@RequestParam Integer positionId) {
+    public List<PositionAndSkillNameDTO> skillSelect(@RequestParam Integer positionId) {
         List<PositionAndSkillNameDTO> skillNameList = positionAndSkillService.포지션과스킬(positionId);
         return skillNameList;
     }
 
-    @GetMapping("/api/jobOpening/select")
-    public @ResponseBody List<JobOpeningMainDTO> jobOpeningSelect(@RequestParam Integer gubun, Model model) {
-        List<JobOpeningMainDTO> jobOpeningMainDTO = jobOpeningService.채용정보(gubun);
-        model.addAttribute("jobOpeningMainDTO", jobOpeningMainDTO);
+    @GetMapping("/api/jobOpening/select/position")
+    public @ResponseBody List<JobOpeningMainDTO> jobOpeningSelectPosition(@RequestParam Integer positionId) {
+        List<JobOpeningMainDTO> jobOpeningMainDTO = jobOpeningService.포지션별채용정보(positionId);
+        return jobOpeningMainDTO;
+    }
+
+    @GetMapping("/api/jobOpening/select/skill")
+    public @ResponseBody List<JobOpeningMainDTO> jobOpeningSelectSkill(@RequestParam Integer skillId) {
+        List<JobOpeningMainDTO> jobOpeningMainDTO = jobOpeningService.스킬별채용정보(skillId);
         return jobOpeningMainDTO;
     }
 }
