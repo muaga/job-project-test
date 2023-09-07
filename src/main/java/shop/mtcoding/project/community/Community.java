@@ -50,13 +50,12 @@ public class Community {
     private List<Reply> replyList = new ArrayList<>();
 
     @Builder
-    public Community(Integer id, String title, String content, Timestamp createdAt, User user, List<Reply> replyList) {
+    public Community(Integer id, String title, String content, Timestamp createdAt, User user) {
         this.id = id;
         this.title = title;
         this.content = content;
         this.createdAt = createdAt;
         this.user = user;
-        this.replyList = replyList;
     }
 
 }

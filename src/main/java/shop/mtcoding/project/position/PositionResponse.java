@@ -5,6 +5,12 @@ import lombok.Getter;
 import lombok.Setter;
 
 public class PositionResponse {
+    @Getter
+    @Setter
+    @Builder
+    public static class WishPositionResponseDTO {
+        private String position;
+    }
 
     @Getter
     @Setter
@@ -17,4 +23,16 @@ public class PositionResponse {
             this.positionName = positionName;
         }
     }
+
+    @Getter
+    @Setter
+    public static class RequiredPositionResponseDTO {
+        String position;
+
+        @Builder
+        public RequiredPositionResponseDTO(String position) {
+            this.position = position;
+        }
+    }
+
 }

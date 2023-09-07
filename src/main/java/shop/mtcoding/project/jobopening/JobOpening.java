@@ -69,11 +69,23 @@ public class JobOpening {
     private User user;
 
     @OneToMany(mappedBy = "jobOpening", fetch = FetchType.LAZY)
-    private List<UserScrap> userScrap = new ArrayList<>();
+    private List<UserScrap> userScrapList = new ArrayList<>();
+
+    @OneToMany(mappedBy = "jobOpening", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    private List<RequiredSkill> requiredSkillList = new ArrayList<>();
+
+    @OneToMany(mappedBy = "jobOpening", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    private List<RequiredPosition> requiredPositionList = new ArrayList<>();
+
+    @OneToMany(mappedBy = "jobOpening", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    private List<Task> taskList = new ArrayList<>();
+
+    @OneToMany(mappedBy = "jobOpening", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    private List<Qualified> qualifiedList = new ArrayList<>();
 
     @Builder
     public JobOpening(Integer id, String title, String process, String career, String careerYear, String edu,
-            String compAddress, LocalDate deadLine, Timestamp createdAt, User user, List<UserScrap> userScrap) {
+            String compAddress, LocalDate deadLine, Timestamp createdAt, User user) {
         this.id = id;
         this.title = title;
         this.process = process;
@@ -84,7 +96,6 @@ public class JobOpening {
         this.deadLine = deadLine;
         this.createdAt = createdAt;
         this.user = user;
-        this.userScrap = userScrap;
     }
 
 }
