@@ -18,16 +18,22 @@ public class JobOpeningRepositoryTest {
     private JobOpeningRepository jobOpeningRepository;
 
     @Test
-    public void mfindByCompAddress() {
-        List<JobOpening> jobOpeningList = jobOpeningRepository.mfindByCompAddress("부산");
+    public void mFfindBySelectedPositionOrSkill_test() {
+        List<JobOpening> jobOpeningList = jobOpeningRepository.mFfindBySelectedPositionOrSkill(1, null);
         for (JobOpening jobOpening : jobOpeningList) {
             System.out.println("테스트 : " + jobOpening.getTitle());
         }
+
+        // List<JobOpening> jobOpeningList1 =
+        // jobOpeningRepository.mFfindBySelectedPositionAndSkill(1, 1);
+        // for (JobOpening jobOpening : jobOpeningList1) {
+        // System.out.println("테스트 : " + jobOpening.getTitle());
+        // }
     }
 
     @Test
     public void findBySelectedCareerOrCareerYear_test() {
-        List<JobOpening> jobOpeningList = jobOpeningRepository.mfindByCompAddress("경력 1년차");
+        List<JobOpening> jobOpeningList = jobOpeningRepository.mFindBySelectedCareerAndLocation("경력 1년차", null);
 
         // jobOpening을 담기 위한 List
         List<JobOpeningMainDTO> jobOpeningMainDTOList = new ArrayList<>();

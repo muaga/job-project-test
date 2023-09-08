@@ -11,11 +11,11 @@
       <div class="position_tab">
         <ul class="position_category" id="position">
           <li>
-            <a href="#" class="" onclick="handleAllClick()">전체</a>
+            <button class="skill_box" onclick="handleAllClick()">전체</button>
           </li>
           {{#positionList}}
           <li>
-            <a href="#" class="skill_box" onclick="handlePositionClick('{{id}}')">{{position}}</a>
+            <button class="skill_box" onclick="handlePositionClick('{{id}}')">{{position}}</button>
           </li>
           {{/positionList}}
         </ul>
@@ -70,46 +70,63 @@
 
   <script>
 
-    render(null, 'all');
-
-    // 페이지 로드 시 초기 데이터를 불러옵니다.
-    // loadInitialData();
+    //제일 첫 화면
+    render1();
 
     function handleAllClick() {
-      render(null, 'all');
+      render1();
     }
 
-    function handlePositionClick(positionId) {
-      render(positionId, 'position');
-    }
-
-    function handleSkillClick(skillId) {
-      render(skillId, 'skill');
-    }
-
-    // 2. 통신해서 화면 다시 리기
-    async function render(id, type) {
+    async function render1() {
       $("#position-box").html('');
-      let responseBody = await download(id, type);
-      responseBody.forEach((jobOpening) => {
-        $("#position-box").append(jobOpeningBox(jobOpening));
+      let responseBody = await download1();
+      responseBody.forEach((jobOpening1) => {
+        $("#position-box").append(jobOpeningBox(jobOpening1));
       });
     }
 
-    $("#career, #location").change(async function () {
-      let careerValue = $("#career").val(); // $(this)를 사용하여 현재 선택한 요소를 참조합니다.
-      let locationValue = $("#location").val();
-      await render2(careerValue, locationValue);
-    });
 
-    async function render2(career, location) {
+    // 포지션&기술별 함수 1
+    function handlePositionClick(positionId) {
+      render2(positionId, null);
+      console.log("positionId", positionId);
+    }
+    function handleSkillClick(skillId) {
+      render2(null, skillId);
+      console.log("skillId", skillId);
+    }
+
+    // 포지션&기술별 함수 2
+    async function render2(positionId, skillId) {
       $("#position-box").html('');
-      let responseBody = await download02(career, location);
+      let responseBody = await download2(positionId, skillId);
       responseBody.forEach((jobOpening2) => {
         $("#position-box").append(jobOpeningBox(jobOpening2));
       });
     }
-    console.log("화면 그리기")
+
+    // 경력&지역별 함수 1
+    $("#career, #location").change(async function () {
+      let careerValue = $("#career").val(); // $(this)를 사용하여 현재 선택한 요소를 참조합니다.
+      let locationValue = $("#location").val();
+
+      if (careerValue && locationValue) {
+        await render3(careerValue, locationValue);
+      } else if (careerValue) {
+        await render3(careerValue, null);
+      } else if (locationValue) {
+        await render3(null, locationValue);
+      }
+    });
+
+    // 경력&지역별 함수 2
+    async function render3(career, location) {
+      $("#position-box").html('');
+      let responseBody = await download3(career, location);
+      responseBody.forEach((jobOpening3) => {
+        $("#position-box").append(jobOpeningBox(jobOpening3));
+      });
+    }
 
     // 3. 컴퍼넌트
     function jobOpeningBox(jobOpening) {
@@ -143,19 +160,36 @@
         </li>`;
     }
 
-
-    console.log("html 결합");
-
-    // 4. 통신코드
-    async function download(id, type) {
-      let response = await fetch(`/api/jobOpening/select/${type}?${type}Id=${id}`);
+    // 메인 또는 전체보기
+    async function download1() {
+      let response = await fetch(`/api/jobOpening/select/all`);
       let responseBody = await response.json();
       console.log(responseBody);
       return responseBody;
     }
 
-    async function download02(career, location) {
-      let response = await fetch("/api/jobOpening/select/career?career=" + career + "&location=" + location);
+    // 포지션&기술별 채용공고 통신코드
+    async function download2(positionId, skillId) {
+      console.log('positionId', positionId);
+      console.log('skillId', skillId);
+
+      let url = `/api/jobOpening/select/pk`;
+      if (positionId == null) {
+        url += `?skillId=${skillId}`;
+      } else if (skillId == null) {
+        url += `?positionId=${positionId}`;
+      } else if (positionId != null && skillId != null) {
+        url += `?positionId=${positionId}&skillId=${skillId}`;
+      }
+      let response = await fetch(url);
+      let responseBody = await response.json();
+      console.log(responseBody);
+      return responseBody;
+    }
+
+    // 경력&지역별 채용공고 통신코드
+    async function download3(career, location) {
+      let response = await fetch(`/api/jobOpening/select/cl?career=${career}&location=${location}`);
       let responseBody = await response.json();
       return responseBody;
     }
