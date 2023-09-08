@@ -34,33 +34,32 @@
     <div class="position_select">
       <select class="select select_edu" id="career">
         <option disabled selected>경력</option>
-        <option value="1">신입</option>
-        <option value="2">1년차</option>
-        <option value="3">2년차</option>
-        <option value="4">3년차</option>
-        <option value="5">4년차</option>
-        <option value="6">5년차</option>
+        <option value="신입">신입</option>
+        <option value="경력 1년차">1년차</option>
+        <option value="경력 2년차">2년차</option>
+        <option value="경력 3년차">3년차</option>
+        <option value="경력 4년차">4년차</option>
+        <option value="경력 5년차">5년차</option>
       </select>
 
       <select class="select select_adr" id="location">
         <option disabled selected>지역</option>
-        <option value="1">전국</option>
-        <option value="2">서울</option>
-        <option value="3">경기</option>
-        <option value="4">인천</option>
-        <option value="5">부산</option>
-        <option value="6">대구</option>
-        <option value="7">광주</option>
-        <option value="8">대전</option>
-        <option value="9">울산</option>
-        <option value="10">세종</option>
-        <option value="11">충북</option>
-        <option value="12">충남</option>
-        <option value="13">전북</option>
-        <option value="14">전남</option>
-        <option value="15">경북</option>
-        <option value="16">경남</option>
-        <option value="17">제주</option>
+        <option value="서울">서울</option>
+        <option value="경기">경기</option>
+        <option value="인천">인천</option>
+        <option value="부산">부산</option>
+        <option value="대구">대구</option>
+        <option value="광주">광주</option>
+        <option value="대전">대전</option>
+        <option value="울산">울산</option>
+        <option value="세종">세종</option>
+        <option value="충북">충북</option>
+        <option value="충남">충남</option>
+        <option value="전북">전북</option>
+        <option value="전남">전남</option>
+        <option value="경북">경북</option>
+        <option value="경남">경남</option>
+        <option value="제주">제주</option>
       </select>
     </div>
     <div class="main_box" id="position-box">
@@ -73,18 +72,8 @@
 
     render(null, 'all');
 
-    $(document).ready(function () {
-      // 초기 데이터를 불러오는 AJAX 요청
-      async function loadInitialData() {
-        let responseBody = await download(null, 'all'); // null과 'all'을 전달하여 초기값을 설정
-        responseBody.forEach((jobOpening) => {
-          $("#position-box").append(jobOpeningBox(jobOpening));
-        });
-      }
-    });
-
     // 페이지 로드 시 초기 데이터를 불러옵니다.
-    loadInitialData();
+    // loadInitialData();
 
     function handleAllClick() {
       render(null, 'all');
@@ -98,23 +87,6 @@
       render(skillId, 'skill');
     }
 
-    $("#position-1").click();
-    $("#skill-1").click();
-
-    $("#career").change(() => {
-      let value = $("#career").val();
-      alert(value);
-      render(value);
-    });
-
-    async function render(career) {
-      $("#position-box").html('');
-      let responseBody = await download02(career);
-      responseBody.forEach((select) => {
-        $("#position-box").append(jobOpeningBox(jobOpening));
-      });
-    }
-
     // 2. 통신해서 화면 다시 리기
     async function render(id, type) {
       $("#position-box").html('');
@@ -122,12 +94,26 @@
       responseBody.forEach((jobOpening) => {
         $("#position-box").append(jobOpeningBox(jobOpening));
       });
+    }
 
-      console.log("화면 그리기")
+    $("#career, #location").change(async function () {
+      let careerValue = $("#career").val(); // $(this)를 사용하여 현재 선택한 요소를 참조합니다.
+      let locationValue = $("#location").val();
+      await render2(careerValue, locationValue);
+    });
 
-      // 3. 컴퍼넌트
-      function jobOpeningBox(jobOpening) {
-        return `
+    async function render2(career, location) {
+      $("#position-box").html('');
+      let responseBody = await download02(career, location);
+      responseBody.forEach((jobOpening2) => {
+        $("#position-box").append(jobOpeningBox(jobOpening2));
+      });
+    }
+    console.log("화면 그리기")
+
+    // 3. 컴퍼넌트
+    function jobOpeningBox(jobOpening) {
+      return `
         <li class="comp_item">
           <a href="/user/jobOpening/${jobOpening.jobOpeningId}">
             <ul class="comp_cont">
@@ -150,32 +136,29 @@
                 </span>
                 <span class="com_car">
                   <p class="career">${jobOpening.career}</p>
-                  <p>${jobOpening.careerYear}</p>
                 </span>
               </li>
             </ul>
           </a>
         </li>`;
-      }
-
-
-      console.log("html 결합");
-
-      // 4. 통신코드
-      async function download(id, type) {
-        let response = await fetch(`/api/jobOpening/select/${type}?${type}Id=${id}`);
-        let responseBody = await response.json();
-        console.log(responseBody);
-        return responseBody;
-      }
-
-      async function download02(career) {
-        let response = await fetch("/api/product?career=" + career);
-        let responseBody = await response.json();
-        return responseBody;
-      }
     }
-    console.log("통신다운로드")
+
+
+    console.log("html 결합");
+
+    // 4. 통신코드
+    async function download(id, type) {
+      let response = await fetch(`/api/jobOpening/select/${type}?${type}Id=${id}`);
+      let responseBody = await response.json();
+      console.log(responseBody);
+      return responseBody;
+    }
+
+    async function download02(career, location) {
+      let response = await fetch("/api/jobOpening/select/career?career=" + career + "&location=" + location);
+      let responseBody = await response.json();
+      return responseBody;
+    }
   </script>
 
 </main>
