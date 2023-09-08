@@ -100,9 +100,7 @@ public class JobOpeningController {
     @GetMapping("/api/jobOpening/select/cl")
     public @ResponseBody List<JobOpeningMainDTO> jobOpeningSelectByCareerOrLocation(@RequestParam String career,
             @RequestParam String location) {
-        System.out.println("송공");
         List<JobOpeningMainDTO> jobOpeningMainDTO = jobOpeningService.경력과지역선택(career, location);
-        System.out.println("송공");
         return jobOpeningMainDTO;
     }
 

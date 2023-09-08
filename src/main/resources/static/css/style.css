@@ -764,7 +764,7 @@ footer li:last-child {
   transition: all 0.3s;
 }
 
-.skill_box.active {
+.selected_box.selected {
   background-color: var(--primary_01);
   color: var(--def_wh);
 }
