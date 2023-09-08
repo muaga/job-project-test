@@ -98,15 +98,17 @@ public class JobOpeningController {
 
     // 경력or지역/경력and지역을 기반으로 데이터 필터링
     @GetMapping("/api/jobOpening/select/cl")
-    public @ResponseBody List<JobOpeningMainDTO> jobOpeningSelectByCareer(@RequestParam String career,
+    public @ResponseBody List<JobOpeningMainDTO> jobOpeningSelectByCareerOrLocation(@RequestParam String career,
             @RequestParam String location) {
+        System.out.println("송공");
         List<JobOpeningMainDTO> jobOpeningMainDTO = jobOpeningService.경력과지역선택(career, location);
+        System.out.println("송공");
         return jobOpeningMainDTO;
     }
 
-    // 포지션을 기반으로 데이터 필터링
+    // 포지션or스킬/포지션ans스킬을 기반으로 데이터 필터링
     @GetMapping("/api/jobOpening/select/pk")
-    public @ResponseBody List<JobOpeningMainDTO> jobOpeningSelectPosition(
+    public @ResponseBody List<JobOpeningMainDTO> jobOpeningSelectByPositionOrSkill(
             @RequestParam(required = false) Integer positionId,
             @RequestParam(required = false) Integer skillId) {
         List<JobOpeningMainDTO> jobOpeningMainDTO = jobOpeningService.포지션과스킬선택(positionId, skillId);

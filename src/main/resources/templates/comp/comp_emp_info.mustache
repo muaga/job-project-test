@@ -70,6 +70,15 @@
 
   <script>
 
+
+
+
+
+
+
+
+    ////////////////////////////////////////////////////////////////////////////
+
     //제일 첫 화면
     render1();
 
@@ -80,8 +89,8 @@
     async function render1() {
       $("#position-box").html('');
       let responseBody = await download1();
-      responseBody.forEach((jobOpening1) => {
-        $("#position-box").append(jobOpeningBox(jobOpening1));
+      responseBody.forEach((jobOpening) => {
+        $("#position-box").append(jobOpeningBox(jobOpening));
       });
     }
 
@@ -100,8 +109,8 @@
     async function render2(positionId, skillId) {
       $("#position-box").html('');
       let responseBody = await download2(positionId, skillId);
-      responseBody.forEach((jobOpening2) => {
-        $("#position-box").append(jobOpeningBox(jobOpening2));
+      responseBody.forEach((jobOpening) => {
+        $("#position-box").append(jobOpeningBox(jobOpening));
       });
     }
 
@@ -109,6 +118,9 @@
     $("#career, #location").change(async function () {
       let careerValue = $("#career").val(); // $(this)를 사용하여 현재 선택한 요소를 참조합니다.
       let locationValue = $("#location").val();
+
+      console.log(careerValue);
+      console.log(locationValue);
 
       if (careerValue && locationValue) {
         await render3(careerValue, locationValue);
@@ -123,8 +135,8 @@
     async function render3(career, location) {
       $("#position-box").html('');
       let responseBody = await download3(career, location);
-      responseBody.forEach((jobOpening3) => {
-        $("#position-box").append(jobOpeningBox(jobOpening3));
+      responseBody.forEach((jobOpening) => {
+        $("#position-box").append(jobOpeningBox(jobOpening));
       });
     }
 
@@ -189,8 +201,11 @@
 
     // 경력&지역별 채용공고 통신코드
     async function download3(career, location) {
+      console.log("4");
       let response = await fetch(`/api/jobOpening/select/cl?career=${career}&location=${location}`);
+      console.log("5");
       let responseBody = await response.json();
+      console.log("6");
       return responseBody;
     }
   </script>
