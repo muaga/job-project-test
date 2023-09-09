@@ -16,6 +16,7 @@ public class RequiredSkillRepositoryTest {
     public void mfindByAllJoinSkillAndJobOpening_test() {
         List<RequiredSkill> rs = requiredSkillRepository.mfindByAllJoinSkillAndJobOpening();
         for (RequiredSkill requiredSkill : rs) {
+            System.out.println("테스트 : " + requiredSkill.getJobOpening().getUser().getUserName());
             System.out.println("테스트 : " + requiredSkill.getJobOpening().getId());
             System.out.println("테스트 : " + requiredSkill.getJobOpening().getUser().getUserName());
             System.out.println("테스트 : " + requiredSkill.getJobOpening().getCareer());

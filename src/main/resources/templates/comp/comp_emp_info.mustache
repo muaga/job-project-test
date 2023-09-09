@@ -9,194 +9,152 @@
     <!-- 여기서부터 시작 -->
     <div class="position_box">
       <div class="position_tab">
-        <ul class="position_category" id="gubun">
+        <ul class="position_category" id="position">
           <li>
-            <a href="#" class="">전체</a>
+            <a href="#" class="" onclick="handleAllClick()">전체</a>
           </li>
           {{#positionList}}
           <li>
-            <a href="#" data-positionId="{{id}}">{{position}}</a>
+            <a href="#" class="skill_box" onclick="handlePositionClick('{{id}}')">{{position}}</a>
           </li>
           {{/positionList}}
         </ul>
       </div>
       <ul class="position_menu">
-        <li class="position_skill com_skill position_active">
-          <a href="#" class="skill_box">Java</a>
-          <a href="#" class="skill_box">JavaScript</a>
-          <a href="#" class="skill_box">Spring Boot</a>
-          <a href="#" class="skill_box">Python</a>
-          <a href="#" class="skill_box">C++</a>
-          <a href="#" class="skill_box">Kotlin</a>
-          <a href="#" class="skill_box">Swift</a>
-          <a href="#" class="skill_box">MySQL</a>
-          <a href="#" class="skill_box">jQuery</a>
-          <a href="#" class="skill_box">HTML</a>
-          <a href="#" class="skill_box">Flutter</a>
-          <a href="#" class="skill_box">JSP</a>
-          <a href="#" class="skill_box">React</a>
-          <a href="#" class="skill_box">React Native</a>
-          <a href="#" class="skill_box">Vue.js</a>
-          <a href="#" class="skill_box">OpenCV</a>
-          <a href="#" class="skill_box">PyTorch</a>
-          <a href="#" class="skill_box">Oracle</a>
-          <a href="#" class="skill_box">AWS</a>
-        </li>
-
+        {{#skillList}}
         <li class="position_skill com_skill">
-          {{#skillNameList}}
-          <a href="#" class="skill_box">{{skillName}}</a>
-          {{/skillNameList}}
+          <a href="#" class="skill_box" onclick="handleSkillClick('{{id}}')">{{skill}}</a>
         </li>
-
-        <li class="position_skill com_skill">
-          <a href="#" class="skill_box">JavaScript</a>
-          <a href="#" class="skill_box">React</a>
-          <a href="#" class="skill_box">Vue.js</a>
-          <a href="#" class="skill_box">HTML</a>
-          <a href="#" class="skill_box">jQuery</a>
-        </li>
-
-        <li class="position_skill com_skill">
-          <a href="#" class="skill_box">Java</a>
-          <a href="#" class="skill_box">React</a>
-          <a href="#" class="skill_box">Vue.js</a>
-          <a href="#" class="skill_box">HTML</a>
-          <a href="#" class="skill_box">jQuery</a>
-        </li>
-
-        <li class="position_skill com_skill">
-          <a href="#" class="skill_box">Kotlin</a>
-          <a href="#" class="skill_box">Java</a>
-          <a href="#" class="skill_box">C++</a>
-        </li>
-
-        <li class="position_skill com_skill">
-          <a href="#" class="skill_box">JavaScript</a>
-          <a href="#" class="skill_box">Flutter</a>
-          <a href="#" class="skill_box">React</a>
-        </li>
-
-        <li class="position_skill com_skill">
-          <a href="#" class="skill_box">Java</a>
-          <a href="#" class="skill_box">Python</a>
-          <a href="#" class="skill_box">PyTorch</a>
-        </li>
-
-        <li class="position_skill com_skill">
-          <a href="#" class="skill_box">Java</a>
-          <a href="#" class="skill_box">Python</a>
-          <a href="#" class="skill_box">C++</a>
-          <a href="#" class="skill_box">OpenCV</a>
-        </li>
+        {{/skillList}}
       </ul>
     </div>
 
 
 
     <div class="position_select">
-      <select class="select select_skill">
-        <option disabled selected>기술스택</option>
-        <option>java</option>
-        <option>javaScript</option>
-      </select>
       <select class="select select_edu">
         <option disabled selected>경력</option>
-        <option>java</option>
-        <option>javaScript</option>
+        <option>신입</option>
+        <option>1년차</option>
+        <option>2년차</option>
+        <option>3년차</option>
+        <option>4년차</option>
+        <option>5년차</option>
       </select>
       <select class="select select_adr">
         <option disabled selected>지역</option>
-        <option>java</option>
-        <option>javaScript</option>
+        <option>전국</option>
+        <option>서울</option>
+        <option>경기</option>
+        <option>인천</option>
+        <option>부산</option>
+        <option>대구</option>
+        <option>광주</option>
+        <option>대전</option>
+        <option>울산</option>
+        <option>세종</option>
+        <option>충북</option>
+        <option>충남</option>
+        <option>전북</option>
+        <option>전남</option>
+        <option>경북</option>
+        <option>경남</option>
+        <option>제주</option>
       </select>
     </div>
     <div class="main_box" id="position-box">
 
     </div>
   </div>
+
+
   <script>
-    // 포지션 리스트 클릭 시 이벤트 처리
-    $("#gubun a").click(function () {
-      var positionId = $(this).attr("positionId"); // 클릭한 포지션의 ID
-      // AJAX를 사용하여 서버에서 해당 포지션에 대한 데이터 가져오기
-      $.ajax({
-        url: "/api/skill/select?positionId=" + positionId, // 적절한 엔드포인트 URL로 변경
-        type: "GET",
-        dataType: "json",
-        success: function (data) {
-          // 서버에서 받은 데이터를 화면에 업데이트
-          updatePositionData(data);
-        },
-        error: function (error) {
-          console.error("데이터를 가져오는 중 에러 발생: " + error);
-        }
-      });
+
+    render(null, 'all');
+
+    $(document).ready(function () {
+      // 초기 데이터를 불러오는 AJAX 요청
+      async function loadInitialData() {
+        let responseBody = await download(null, 'all'); // null과 'all'을 전달하여 초기값을 설정
+        responseBody.forEach((jobOpening) => {
+          $("#position-box").append(jobOpeningBox(jobOpening));
+        });
+      }
     });
 
-    // 서버에서 받은 데이터로 화면 업데이트
-    function updatePositionData(data) {
-      // 여기서 data를 사용하여 필요한 HTML 요소를 업데이트
-      // 예를 들어, positionList에 대한 데이터를 사용하여 화면을 업데이트할 수 있음
-      var positionList = data.positionList;
-      // 화면 업데이트 로직을 작성하여 positionList를 사용
+    // 페이지 로드 시 초기 데이터를 불러옵니다.
+    loadInitialData();
+
+    function handleAllClick() {
+      render(null, 'all');
     }
 
-    render(1);
-    // 1. 셀렉트 박스 변경될 때 마다, 화면 갱신
-    $("#gubun").change(() => {
-      let value = $("#gubun").val();
-      alert(value);
-      render(value);
-    });
+    function handlePositionClick(positionId) {
+      render(positionId, 'position');
+    }
 
-    // 2. 통신해서 화면 다시 그리기
-    async function render(gubun) {
+    function handleSkillClick(skillId) {
+      render(skillId, 'skill');
+    }
+
+    $("#position-1").click();
+    $("#skill-1").click();
+
+    // 2. 통신해서 화면 다시 리기
+    async function render(id, type) {
       $("#position-box").html('');
-      let responseBody = await download(gubun);
-      responseBody.forEach((jobOpeningMainDTO) => {
-        $("#position-box").append(positionBox(jobOpeningMainDTO));
+      let responseBody = await download(id, type);
+      responseBody.forEach((jobOpening) => {
+        $("#position-box").append(jobOpeningBox(jobOpening));
       });
 
-      // 3. 컴퍼넌트 (디자인 결합)
-      function positionBox(jobOpeningMainDTO) {
+      console.log("화면 그리기")
+
+      // 3. 컴퍼넌트
+      function jobOpeningBox(jobOpening) {
         return `
-      <li class="comp_item">
-        <a href="/comp/jobOpening/{{jobOpeningMainDTO.jobOpeningId}}">
-          <ul class="comp_cont">
-            <li class="comp_img">
-              <img src="/image/company_img/comp_img01.png" alt="기업01">
-            </li>
-            <li class="com_name">
-              {{jobOpeningMainDTO.compNameList}}
-            </li>
-            <li class="com_tit">
-              <h4>{{jobOpeningMainDTO.titleList}}</h4>
-            </li>
-            <li class="com_txt">
-              <p>{{jobOpeningMainDTO.skillList}}</p>
-            </li>
-            <li class="com_etc">
-              <span class="com_adr">
-                <p>{{jobOpeningMainDTO.compAddressList}}</p>
-              </span>
-              <span class="com_car">
-                <p>{{jobOpeningMainDTO.careerList}}</p>
-                <p>{{jobOpeningMainDTO.careerYearList}}</p>
-              </span>
-            </li>
-          </ul>
-        </a>
-      </li>`;
+        <li class="comp_item">
+          <a href="/user/jobOpening/${jobOpening.jobOpeningId}">
+            <ul class="comp_cont">
+              <li class="comp_img">
+                <img src="/image/company_img/comp_img01.png" alt="기업01">
+              </li>
+              <li class="com_name">
+                ${jobOpening.compName}
+              </li>
+              <li class="com_tit">
+                <h4>${jobOpening.title}</h4>
+              </li>
+              <li class="com_txt">
+                <p>${jobOpening.skill}</p>
+              </li>
+              <li class="com_etc">
+                <span class="com_adr">
+                  <p class="compaddress">${jobOpening.compAddress}</p>
+                  <p>|</p>
+                </span>
+                <span class="com_car">
+                  <p class="career">${jobOpening.career}</p>
+                  <p>${jobOpening.careerYear}</p>
+                </span>
+              </li>
+            </ul>
+          </a>
+        </li>`;
       }
 
+
+      console.log("html 결합");
+
       // 4. 통신코드
-      async function download(gubun) {
-        let response = await fetch("/api/jobOpening/select?gubun=" + gubun);
+      async function download(id, type) {
+        let response = await fetch(`/api/jobOpening/select/${type}?${type}Id=${id}`);
         let responseBody = await response.json();
+        console.log(responseBody);
         return responseBody;
       }
     }
+    console.log("통신다운로드")
   </script>
 
 </main>

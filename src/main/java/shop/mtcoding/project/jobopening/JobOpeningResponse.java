@@ -24,23 +24,23 @@ public class JobOpeningResponse {
     public static class JobOpeningMainDTO {
 
         private Integer jobOpeningId;
-        private String titleList;
-        private String compNameList;
-        private String compAddressList;
-        private String careerList;
-        private String careerYearList;
-        private String skillList;
+        private String title;
+        private String compName;
+        private String compAddress;
+        private String career;
+        private String careerYear;
+        private String skill;
 
         @Builder
-        public JobOpeningMainDTO(Integer jobOpeningId, String titleList, String compNameList, String compAddressList,
-                String careerList, String careerYearList, String skillList) {
+        public JobOpeningMainDTO(Integer jobOpeningId, String title, String compName, String compAddress, String career,
+                String careerYear, String skill) {
             this.jobOpeningId = jobOpeningId;
-            this.titleList = titleList;
-            this.compNameList = compNameList;
-            this.compAddressList = compAddressList;
-            this.careerList = careerList;
-            this.careerYearList = careerYearList;
-            this.skillList = skillList;
+            this.title = title;
+            this.compName = compName;
+            this.compAddress = compAddress;
+            this.career = career;
+            this.careerYear = careerYear;
+            this.skill = skill;
         }
     }
 
