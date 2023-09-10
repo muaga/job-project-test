@@ -40,6 +40,7 @@
     <div class="position_select">
       <select class="select select_edu" id="career">
         <option disabled selected>경력</option>
+        <option value="경력">경력</option>
         <option value="신입">신입</option>
       </select>
       <select class="select select_edu" id="careerYear">
@@ -80,6 +81,18 @@
 
   <script>
 
+    document.getElementById("career").addEventListener("change", function () {
+      var careerSelect = document.getElementById("career");
+      var careerYearSelect = document.getElementById("careerYear");
+
+      if (careerSelect.value === "신입") {
+        careerYearSelect.disabled = true;
+        careerYearSelect.selectedIndex = 0; // 선택된 옵션을 초기화
+      } else {
+        careerYearSelect.disabled = false;
+      }
+    });
+
 
     ////////////////////////////////////////////////////////////////////////////
 
@@ -104,44 +117,44 @@
     let skillIdList = [];
 
     // 포지션&기술별 함수 1
-    function handlePositionClick(positionId) {
-    // 포지션 체크박스 상태 확인
-    let isChecked = $(`#position${positionId}`).prop("checked");
+              function handlePositionClick(positionId) {
+      // 포지션 체크박스 상태 확인
+      let isChecked = $(`#position${positionId}`).prop("checked");
 
-    // 선택한 포지션을 배열에 추가 또는 제거
-    if (isChecked) {
-      positionIdList.push(positionId);
-    } else {
+      // 선택한 포지션을 배열에 추가 또는 제거
+      if (isChecked) {
+        positionIdList.push(positionId);
+      } else {
         let index = positionIdList.indexOf(positionId);
         if (index !== -1) {
           positionIdList.splice(index, 1);
         }
-    }
+      }
 
-    // API 호출 함수 호출
-    render2(positionIdList, skillIdList);
-    console.log("포지션리스트", positionIdList);
+      // API 호출 함수 호출
+      render2(positionIdList, skillIdList);
+      console.log("포지션리스트", positionIdList);
     }
 
     function handleSkillClick(skillId) {
-    // 스킬 체크박스 상태 확인
-    let isChecked = $(`#skill${skillId}`).prop("checked");
+      // 스킬 체크박스 상태 확인
+      let isChecked = $(`#skill${skillId}`).prop("checked");
 
-    // 선택한 스킬을 배열에 추가 또는 제거
-    if (isChecked) {
-      skillIdList.push(skillId);
-    } else {
+      // 선택한 스킬을 배열에 추가 또는 제거
+      if (isChecked) {
+        skillIdList.push(skillId);
+      } else {
         const index = skillIdList.indexOf(skillId);
         if (index !== -1) {
           skillIdList.splice(index, 1);
         }
+      }
+
+      // API 호출 함수 호출
+      render2(positionIdList, skillIdList);
+      console.log("스킬리스트", skillIdList);
+
     }
-
-    // API 호출 함수 호출
-    render2(positionIdList, skillIdList);
-    console.log("스킬리스트", skillIdList);
-
-  }
 
     // 포지션&기술별 함수 2
     async function render2(positionIdList, skillIdList) {
@@ -152,8 +165,6 @@
       });
     }
 
-    /////////
-
     // 경력&지역별 함수 1
     $("#career, #careerYear, #location").change(async function () {
       let careerValue = $("#career").val(); // $(this)를 사용하여 현재 선택한 요소를 참조
@@ -163,40 +174,38 @@
       console.log(careerValue);
       console.log(locationValue);
       console.log(careerYearValue);
-/////////////////////////////////////////////////////////////
 
-      if ((careerValue !== null) && (careerYearValue === null) && (locationValue !== "전국" && locationValue !== null)) {
-        await render3(careerValue, null ,locationValue);
-        console.log("1");
-        
-      } else if ((careerYearValue !== null) && (careerYearValue === null) && (locationValue === "전국")){ 
-        locationValue = null; 
-        await render3(careerValue ,null, locationValue);
-        console.log("2");
-        
+
+      // 전국과 중복값 추출 조건
+      if ((careerValue !== null) && (careerYearValue === null) && (locationValue !== "전국")) {
+        await render3(careerValue, null, locationValue);
+
+      } else if ((careerValue !== null) && (careerYearValue === null) && (locationValue === "전국")) {
+        await render3(careerValue, null, " ");
+
+      } else if ((careerValue !== null) && (careerYearValue === null) && (locationValue !== null && locationValue !== "전국")) {
+        await render3(careerValue, null, locationValue)
+
       } else if ((careerValue !== null) && (careerYearValue === null) && (locationValue === null)) {
-        console.log("3");
         await render3(careerValue, null, null);
-        
-      } else if ((careerValue === null) && (careerYearValue !== null) && (locationValue !== "전국" && locationValue !== null)) {
+
+      } else if ((careerValue === null) && (careerYearValue !== null) && (locationValue !== "전국")) {
         await render3(null, careerYearValue, locationValue);
-        console.log("4");
-        
-      } else if((careerYearValue === null) && (careerYearValue !== null) && (locationValue === "전국")){
+
+      } else if ((careerValue === null) && (careerYearValue !== null) && (locationValue !== null)) {
+        await render3(null, careerYearValue, " ")
+
+      } else if ((careerYearValue === null) && (careerYearValue !== null) && (locationValue === "전국")) {
         await render3(null, careerYearValue, " ");
-        console.log("5");
-        
+
       } else if ((careerValue === null) && (careerYearValue !== null) && (locationValue === null)) {
-        await render3(null, careerYearValue, null);  
-        console.log("6");
-        
+        await render3(null, careerYearValue, null);
+
       } else if ((careerValue === null) && (careerYearValue === null) && locationValue === "전국") {
         await render3(null, null, " ");
-        console.log("7");
-        
+
       } else if ((careerValue == null) && (careerYearValue === null) && (locationValue !== "전국")) {
-        await render3(null, null,locationValue);
-        console.log("8");
+        await render3(null, null, locationValue);
       }
     });
 
@@ -226,7 +235,7 @@
                 </li>
                 <li class="com_txt">
                 <p>${jobOpening.skill}</p>
-              </li>
+                </li>
               <li class="com_etc">
                 <span class="com_adr">
                   <p class="compaddress">${jobOpening.compAddress}</p>
@@ -241,7 +250,7 @@
           </a>
         </li>`;
     }
-    
+
     // 메인 또는 전체보기
     async function download1() {
       let response = await fetch(`/api/jobOpening/select/all`);
@@ -249,7 +258,7 @@
       console.log(responseBody);
       return responseBody;
     }
-    
+
     // 포지션&기술별 채용공고 통신코드
     async function download2(positionIdList, skillIdList) {
       let url = `/api/jobOpening/select/pk`;
@@ -266,25 +275,25 @@
       console.log(responseBody);
       return responseBody;
     }
-    
+
     // 경력&지역별 채용공고 통신코드
     async function download3(career, careerYear, location) {
       let url = `/api/jobOpening/select/cl`;
-      if(career != null && careerYear == null && location == null){
+      if (career != null && careerYear == null && location == null) {
         url += `?career=${career}`;
-      } else if(career == null && careerYear != null && location == null){
+      } else if (career == null && careerYear != null && location == null) {
         url += `?careerYear=${careerYear}`;
-      } else if(career == null && careerYear == null && location != null){
-        url += `?location=${location}`;  
-      } else if(career != null && careerYear != null && location == null){
+      } else if (career == null && careerYear == null && location != null) {
+        url += `?location=${location}`;
+      } else if (career != null && careerYear != null && location == null) {
         url += `?career=${career}&careerYear=${careerYear}`;
-      } else if(career != null && careerYear == null && location != null){
+      } else if (career != null && careerYear == null && location != null) {
         url += `?career=${career}&location=${location}`;
-      } else if(career == null && careerYear != null && location != null){
-        url += `?careerYear=${careerYear}&location=${location}`;   
-      } else if(career != null && careerYear != null & location != null){
+      } else if (career == null && careerYear != null && location != null) {
+        url += `?careerYear=${careerYear}&location=${location}`;
+      } else if (career != null && careerYear != null & location != null) {
         url += `?career=${career}&careerYear=${careerYear}&location=${location}`;
-      } else if(career != null && careerYear != null & location != null){
+      } else if (career != null && careerYear != null & location != null) {
 
       }
       let response = await fetch(url);

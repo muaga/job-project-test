@@ -271,18 +271,13 @@ public class JobOpeningService {
 
         if (career == null && careerYear == null && location != null) {
             jobCareer = jobOpeningQueryRepository.mFindBySelectedCareerOrCareerYearOrLocation(null, null, location);
-            System.out.println("크크1");
-            System.out.println("크크" + location);
         } else if (career == null && careerYear != null && location == null) {
             jobCareer = jobOpeningQueryRepository.mFindBySelectedCareerOrCareerYearOrLocation(null, careerYear, null);
-            System.out.println("크크2");
         } else if (career != null && careerYear == null && location == null) {
             jobCareer = jobOpeningQueryRepository.mFindBySelectedCareerOrCareerYearOrLocation(career, null, null);
-            System.out.println("크크3");
         } else if ((career == null || careerYear == null) && (location != null || location == " ")) {
             jobCareer = jobOpeningQueryRepository.mFindBySelectedCareerOrCareerYearAndLocation(career, careerYear,
                     location);
-            System.out.println("크크4");
         }
 
         // jobOpening을 담기 위한 List
