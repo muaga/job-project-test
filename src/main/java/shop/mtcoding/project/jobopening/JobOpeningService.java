@@ -47,6 +47,9 @@ public class JobOpeningService {
     @Autowired
     private QualifiedRepository qualifiedRepository;
 
+    @Autowired
+    private JobOpeningQueryRepository jobOpeningQueryRepository;
+
     // public List<JobOpeningMainDTO> 포지션별채용정보(Integer positionId, Integer skillId)
     // {
     // List<RequiredPosition> requiredPositionList =
@@ -203,25 +206,14 @@ public class JobOpeningService {
 
     //////////////////////////////////////////////////////////////////////////////////////////////
 
-    public List<JobOpeningMainDTO> 포지션과스킬선택(Integer positionId, Integer skillId) {
+    public List<JobOpeningMainDTO> 포지션과스킬선택(List<Integer> positionIdList, List<Integer> skillIdList) {
 
-        List<JobOpening> jobCareer = null;
+        List<JobOpening> selectJobOpeningList = jobOpeningQueryRepository.findByIdJoinPositionAndSkill(positionIdList,
+                skillIdList);
+
         List<JobOpeningMainDTO> jobOpeningMainDTOList = new ArrayList<>();
-
-        if (positionId != null && skillId == null) {
-            skillId = null;
-            jobCareer = jobOpeningRepository.mFindBySelectedPositionOrSkill(positionId, skillId);
-        }
-        if (skillId != null && positionId == null) {
-            positionId = null;
-            jobCareer = jobOpeningRepository.mFindBySelectedPositionOrSkill(positionId, skillId);
-        }
-        if (positionId != null && skillId != null) {
-            jobCareer = jobOpeningRepository.mFindBySelectedPositionAndSkill(positionId, skillId);
-        }
-
-        // jobOpening을 담기 위한 List
-        for (JobOpening jobOpening : jobCareer) {
+        // 선택된 jobOpening을 DTO에 담기 위한 List
+        for (JobOpening jobOpening : selectJobOpeningList) {
 
             // skillName을 담기 위한 List
             List<String> skillName = new ArrayList<>();

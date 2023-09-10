@@ -11,12 +11,14 @@
       <div class="position_tab">
         <ul class="position_category" id="position">
           <li>
-            <input type="checkbox" class="skill_box" id="positionAll" name="positonAll" onclick="handleAllClick()"></input>
+            <input type="checkbox" class="skill_box" id="positionAll" name="positonAll"
+              onclick="handleAllClick()"></input>
             <label for="positionAll">전체</label>
           </li>
           {{#positionList}}
           <li>
-            <input type="checkbox" class="skill_box" id="position{{id}}" name="positon" onclick="handlePositionClick('{{id}}')"></input>
+            <input type="checkbox" class="skill_box" id="position{{id}}" name="positon"
+              onclick="handlePositionClick('{{id}}')"></input>
             <label for="position{{id}}">{{position}}</label>
           </li>
           {{/positionList}}
@@ -24,7 +26,8 @@
         <ul class="position_menu">
           {{#skillList}}
           <li class="position_skill com_skill">
-            <input type="checkbox" class="skill_box" id="skill{{id}}" name="skill" onclick="handleSkillClick('{{id}}')"></input>
+            <input type="checkbox" class="skill_box" id="skill{{id}}" name="skill"
+              onclick="handleSkillClick('{{id}}')"></input>
             <label for="skill{{id}}">{{skill}}</label>
           </li>
           {{/skillList}}
@@ -92,36 +95,61 @@
       });
     }
 
+    //////////
+
+    let positionIdList = [];
+    let skillIdList = [];
 
     // 포지션&기술별 함수 1
-function handlePositionClick(positionId) {
-  console.log("여기야" + positionId);
-  // positionId는 체크박스의 id로 전달됩니다.
-  var checkbox = document.getElementById(`position${positionId}`);
-  
-  if (checkbox.checked) {
-    checkbox.checked = false;
-  } else {
-    // 체크되어 있지 않을 때의 동작
-    render2(positionId, null);
-  }
-  
-  console.log("positionId", positionId);
-}
+    function handlePositionClick(positionId) {
+    // 포지션 체크박스 상태 확인
+    let isChecked = $(`#position${positionId}`).prop("checked");
 
-    function handleSkillClick(skillId) {
-      render2(null, skillId);
-      console.log("skillId", skillId);
+    // 선택한 포지션을 배열에 추가 또는 제거
+    if (isChecked) {
+      positionIdList.push(positionId);
+    } else {
+        let index = positionIdList.indexOf(positionId);
+        if (index !== -1) {
+          positionIdList.splice(index, 1);
+        }
     }
 
+    // API 호출 함수 호출
+    render2(positionIdList, skillIdList);
+    console.log("포지션리스트", positionIdList);
+    }
+
+    function handleSkillClick(skillId) {
+    // 스킬 체크박스 상태 확인
+    let isChecked = $(`#skill${skillId}`).prop("checked");
+
+    // 선택한 스킬을 배열에 추가 또는 제거
+    if (isChecked) {
+      skillIdList.push(skillId);
+    } else {
+        const index = skillIdList.indexOf(skillId);
+        if (index !== -1) {
+          skillIdList.splice(index, 1);
+        }
+    }
+
+    // API 호출 함수 호출
+    render2(positionIdList, skillIdList);
+    console.log("스킬리스트", skillIdList);
+
+  }
+
     // 포지션&기술별 함수 2
-    async function render2(positionId, skillId) {
+    async function render2(positionIdList, skillIdList) {
       $("#position-box").html('');
-      let responseBody = await download2(positionId, skillId);
+      let responseBody = await download2(positionIdList, skillIdList);
       responseBody.forEach((jobOpening) => {
         $("#position-box").append(jobOpeningBox(jobOpening));
       });
     }
+
+    /////////
 
     // 경력&지역별 함수 1
     $("#career, #location").change(async function () {
@@ -199,15 +227,16 @@ function handlePositionClick(positionId) {
     }
 
     // 포지션&기술별 채용공고 통신코드
-    async function download2(positionId, skillId) {
+    async function download2(positionIdList, skillIdList) {
       let url = `/api/jobOpening/select/pk`;
-      if (positionId == null) {
-        url += `?skillId=${skillId}`;
-      } else if (skillId == null) {
-        url += `?positionId=${positionId}`;
-      } else if (positionId != null && skillId != null) {
-        url += `?positionId=${positionId}&skillId=${skillId}`;
+      if (positionIdList == null && skillIdList > 0) {
+        url += `?skillIdList=${skillIdList.join(",")}`;
+      } else if (skillIdList == null && positionIdList > 0) {
+        url += `?positionIdList=${positionIdList.join(",")}`;
+      } else if (positionIdList != null && skillIdList != null) {
+        url += `?positionIdList=${positionIdList.join(",")}&skillIdList=${skillIdList.join(",")}`;
       }
+
       let response = await fetch(url);
       let responseBody = await response.json();
       console.log(responseBody);

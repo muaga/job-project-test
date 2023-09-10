@@ -107,9 +107,9 @@ public class JobOpeningController {
     // 포지션or스킬/포지션ans스킬을 기반으로 데이터 필터링
     @GetMapping("/api/jobOpening/select/pk")
     public @ResponseBody List<JobOpeningMainDTO> jobOpeningSelectByPositionOrSkill(
-            @RequestParam(required = false) Integer positionId,
-            @RequestParam(required = false) Integer skillId) {
-        List<JobOpeningMainDTO> jobOpeningMainDTO = jobOpeningService.포지션과스킬선택(positionId, skillId);
+            @RequestParam(required = false) List<Integer> positionIdList,
+            @RequestParam(required = false) List<Integer> skillIdList) {
+        List<JobOpeningMainDTO> jobOpeningMainDTO = jobOpeningService.포지션과스킬선택(positionIdList, skillIdList);
         return jobOpeningMainDTO;
     }
 
