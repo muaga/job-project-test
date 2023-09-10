@@ -50,7 +50,7 @@ public class JobOpening {
     @Column(nullable = false)
     private String career;
 
-    @Column(nullable = true)
+    @Column(nullable = true, name = "career_year")
     private String careerYear;
 
     @Column(nullable = false)

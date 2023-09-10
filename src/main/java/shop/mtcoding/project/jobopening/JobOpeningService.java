@@ -112,12 +112,18 @@ public class JobOpeningService {
             String Address = jobOpening.getCompAddress();
             String compAddressFormat = Split.AddressSplit(Address);
 
+            // careeryear null 방지
+            String JcareerYear = jobOpening.getCareerYear();
+            if (JcareerYear == null || "null".equals(JcareerYear)) {
+                JcareerYear = "";
+            }
             JobOpeningMainDTO jobOpeningMainDTO = JobOpeningMainDTO.builder()
                     .jobOpeningId(jobOpening.getId())
                     .title(jobOpening.getTitle())
                     .compName(jobOpening.getUser().getUserName())
                     .compAddress(compAddressFormat)
                     .career(jobOpening.getCareer())
+                    .careerYear(JcareerYear)
                     .skill(skillListString)
                     .build();
             jobOpeningMainDTOList.add(jobOpeningMainDTO);
@@ -177,12 +183,19 @@ public class JobOpeningService {
                 skillNameDTOList.add(skillNameDTO);
             }
 
+            // careeryear null 방지
+            String JcareerYear = jobOpening.getCareerYear();
+            if (JcareerYear == null || "null".equals(JcareerYear)) {
+                JcareerYear = "";
+            }
+
             // view를 하기 위한 DTO
             JobOpeningDetailDTO jobOpeningDetailDTO = JobOpeningDetailDTO.builder()
                     .jobOpeningId(jobOpening.getId())
                     .title(jobOpening.getTitle())
                     .process(jobOpening.getProcess())
                     .career(jobOpening.getCareer())
+                    .careerYear(JcareerYear)
                     .edu(jobOpening.getEdu())
                     .compName(jobOpening.getUser().getUserName())
                     .compAddress(jobOpening.getCompAddress())
@@ -229,12 +242,19 @@ public class JobOpeningService {
             String Address = jobOpening.getCompAddress();
             String compAddressFormat = Split.AddressSplit(Address);
 
+            // careeryear null 방지
+            String JcareerYear = jobOpening.getCareerYear();
+            if (JcareerYear == null || "null".equals(JcareerYear)) {
+                JcareerYear = "";
+            }
+
             JobOpeningMainDTO jobOpeningMainDTO = JobOpeningMainDTO.builder()
                     .jobOpeningId(jobOpening.getId())
                     .title(jobOpening.getTitle())
                     .compName(jobOpening.getUser().getUserName())
                     .compAddress(compAddressFormat)
                     .career(jobOpening.getCareer())
+                    .careerYear(JcareerYear)
                     .skill(skillListString)
                     .build();
             jobOpeningMainDTOList.add(jobOpeningMainDTO);
@@ -244,16 +264,25 @@ public class JobOpeningService {
 
     //////////////////////////////////////////////////////////////////////////////////
 
-    public List<JobOpeningMainDTO> 경력과지역선택(String career, String location) {
+    public List<JobOpeningMainDTO> 경력과지역선택(String career, String careerYear, String location) {
 
         List<JobOpening> jobCareer = null;
         List<JobOpeningMainDTO> jobOpeningMainDTOList = new ArrayList<>();
 
-        if (career != null || location != null) {
-            jobCareer = jobOpeningRepository.mFindBySelectedCareerOrLocation(career, location);
-        }
-        if (career != null && location != null) {
-            jobCareer = jobOpeningRepository.mFindBySelectedCareerAndLocation(career, location);
+        if (career == null && careerYear == null && location != null) {
+            jobCareer = jobOpeningQueryRepository.mFindBySelectedCareerOrCareerYearOrLocation(null, null, location);
+            System.out.println("크크1");
+            System.out.println("크크" + location);
+        } else if (career == null && careerYear != null && location == null) {
+            jobCareer = jobOpeningQueryRepository.mFindBySelectedCareerOrCareerYearOrLocation(null, careerYear, null);
+            System.out.println("크크2");
+        } else if (career != null && careerYear == null && location == null) {
+            jobCareer = jobOpeningQueryRepository.mFindBySelectedCareerOrCareerYearOrLocation(career, null, null);
+            System.out.println("크크3");
+        } else if ((career == null || careerYear == null) && (location != null || location == " ")) {
+            jobCareer = jobOpeningQueryRepository.mFindBySelectedCareerOrCareerYearAndLocation(career, careerYear,
+                    location);
+            System.out.println("크크4");
         }
 
         // jobOpening을 담기 위한 List
@@ -273,12 +302,19 @@ public class JobOpeningService {
             String Address = jobOpening.getCompAddress();
             String compAddressFormat = Split.AddressSplit(Address);
 
+            // careeryear null 방지
+            String JcareerYear = jobOpening.getCareerYear();
+            if (JcareerYear == null || "null".equals(JcareerYear)) {
+                JcareerYear = "";
+            }
+
             JobOpeningMainDTO jobOpeningMainDTO = JobOpeningMainDTO.builder()
                     .jobOpeningId(jobOpening.getId())
                     .title(jobOpening.getTitle())
                     .compName(jobOpening.getUser().getUserName())
                     .compAddress(compAddressFormat)
                     .career(jobOpening.getCareer())
+                    .careerYear(JcareerYear)
                     .skill(skillListString)
                     .build();
             jobOpeningMainDTOList.add(jobOpeningMainDTO);

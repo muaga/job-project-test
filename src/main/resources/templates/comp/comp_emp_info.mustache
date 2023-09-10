@@ -41,11 +41,14 @@
       <select class="select select_edu" id="career">
         <option disabled selected>경력</option>
         <option value="신입">신입</option>
-        <option value="경력 1년차">1년차</option>
-        <option value="경력 2년차">2년차</option>
-        <option value="경력 3년차">3년차</option>
-        <option value="경력 4년차">4년차</option>
-        <option value="경력 5년차">5년차</option>
+      </select>
+      <select class="select select_edu" id="careerYear">
+        <option disabled selected>기간</option>
+        <option value="1년차">1년차</option>
+        <option value="2년차">2년차</option>
+        <option value="3년차">3년차</option>
+        <option value="4년차">4년차</option>
+        <option value="5년차">5년차</option>
       </select>
 
       <select class="select select_adr" id="location">
@@ -152,35 +155,55 @@
     /////////
 
     // 경력&지역별 함수 1
-    $("#career, #location").change(async function () {
-      let careerValue = $("#career").val(); // $(this)를 사용하여 현재 선택한 요소를 참조합니다.
+    $("#career, #careerYear, #location").change(async function () {
+      let careerValue = $("#career").val(); // $(this)를 사용하여 현재 선택한 요소를 참조
       let locationValue = $("#location").val();
+      let careerYearValue = $("#careerYear").val();
 
       console.log(careerValue);
       console.log(locationValue);
+      console.log(careerYearValue);
+/////////////////////////////////////////////////////////////
 
-      if ((careerValue !== null) && (locationValue !== "전국" && locationValue != null)) {
-        await render3(careerValue, locationValue);
-        console.log(careerValue);
-      } else if (careerValue !== null && locationValue === null) {
-        await render3(careerValue, "");
-        console.log("요요요요요");
-      } else if (locationValue && locationValue !== "전국") {
-        await render3("", locationValue);
-      } else if (careerValue === null && locationValue === "전국") {
-        await render3("", "");
-        console.log("이거디");
-      } else if (careerValue !== null && locationValue === "전국") {
-        locationValue = "";
-        await render3(careerValue, locationValue);
-        console.log("야 이거디")
+      if ((careerValue !== null) && (careerYearValue === null) && (locationValue !== "전국" && locationValue !== null)) {
+        await render3(careerValue, null ,locationValue);
+        console.log("1");
+        
+      } else if ((careerYearValue !== null) && (careerYearValue === null) && (locationValue === "전국")){ 
+        locationValue = null; 
+        await render3(careerValue ,null, locationValue);
+        console.log("2");
+        
+      } else if ((careerValue !== null) && (careerYearValue === null) && (locationValue === null)) {
+        console.log("3");
+        await render3(careerValue, null, null);
+        
+      } else if ((careerValue === null) && (careerYearValue !== null) && (locationValue !== "전국" && locationValue !== null)) {
+        await render3(null, careerYearValue, locationValue);
+        console.log("4");
+        
+      } else if((careerYearValue === null) && (careerYearValue !== null) && (locationValue === "전국")){
+        await render3(null, careerYearValue, " ");
+        console.log("5");
+        
+      } else if ((careerValue === null) && (careerYearValue !== null) && (locationValue === null)) {
+        await render3(null, careerYearValue, null);  
+        console.log("6");
+        
+      } else if ((careerValue === null) && (careerYearValue === null) && locationValue === "전국") {
+        await render3(null, null, " ");
+        console.log("7");
+        
+      } else if ((careerValue == null) && (careerYearValue === null) && (locationValue !== "전국")) {
+        await render3(null, null,locationValue);
+        console.log("8");
       }
     });
 
     // 경력&지역별 함수 2
-    async function render3(career, location) {
+    async function render3(career, careerYear, location) {
       $("#position-box").html('');
-      let responseBody = await download3(career, location);
+      let responseBody = await download3(career, careerYear, location);
       responseBody.forEach((jobOpening) => {
         $("#position-box").append(jobOpeningBox(jobOpening));
       });
@@ -200,8 +223,8 @@
               </li>
               <li class="com_tit">
                 <h4>${jobOpening.title}</h4>
-              </li>
-              <li class="com_txt">
+                </li>
+                <li class="com_txt">
                 <p>${jobOpening.skill}</p>
               </li>
               <li class="com_etc">
@@ -210,14 +233,15 @@
                   <p>|</p>
                 </span>
                 <span class="com_car">
-                  <p class="career">${jobOpening.career}</p>
+                  <p>${jobOpening.career}</p>
+                  <p>${jobOpening.careerYear}</p>
                 </span>
               </li>
             </ul>
           </a>
         </li>`;
     }
-
+    
     // 메인 또는 전체보기
     async function download1() {
       let response = await fetch(`/api/jobOpening/select/all`);
@@ -225,7 +249,7 @@
       console.log(responseBody);
       return responseBody;
     }
-
+    
     // 포지션&기술별 채용공고 통신코드
     async function download2(positionIdList, skillIdList) {
       let url = `/api/jobOpening/select/pk`;
@@ -242,10 +266,28 @@
       console.log(responseBody);
       return responseBody;
     }
-
+    
     // 경력&지역별 채용공고 통신코드
-    async function download3(career, location) {
-      let response = await fetch(`/api/jobOpening/select/cl?career=${career}&location=${location}`);
+    async function download3(career, careerYear, location) {
+      let url = `/api/jobOpening/select/cl`;
+      if(career != null && careerYear == null && location == null){
+        url += `?career=${career}`;
+      } else if(career == null && careerYear != null && location == null){
+        url += `?careerYear=${careerYear}`;
+      } else if(career == null && careerYear == null && location != null){
+        url += `?location=${location}`;  
+      } else if(career != null && careerYear != null && location == null){
+        url += `?career=${career}&careerYear=${careerYear}`;
+      } else if(career != null && careerYear == null && location != null){
+        url += `?career=${career}&location=${location}`;
+      } else if(career == null && careerYear != null && location != null){
+        url += `?careerYear=${careerYear}&location=${location}`;   
+      } else if(career != null && careerYear != null & location != null){
+        url += `?career=${career}&careerYear=${careerYear}&location=${location}`;
+      } else if(career != null && careerYear != null & location != null){
+
+      }
+      let response = await fetch(url);
       console.log(response);
       let responseBody = await response.json();
       return responseBody;

@@ -124,6 +124,10 @@ main>.container {
   display: flex;
 }
 
+.com_etc .com_car > p {
+  margin-right: 5px;
+}
+
 .compaddress {
   padding-right: 12px;
 }

@@ -3,6 +3,7 @@ package shop.mtcoding.project.jobopening;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.repository.query.Param;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -50,7 +51,7 @@ public class JobOpeningController {
         return "comp_index";
     }
 
-    // comp_ 채용공고 메인 화면
+    // user_ 채용공고 메인 화면
     @GetMapping("/user/mainForm")
     public String userMainForm(Model model) {
         List<JobOpeningMainDTO> jobOpeningMainDTO = jobOpeningService.메인화면();
@@ -98,9 +99,11 @@ public class JobOpeningController {
 
     // 경력or지역/경력and지역을 기반으로 데이터 필터링
     @GetMapping("/api/jobOpening/select/cl")
-    public @ResponseBody List<JobOpeningMainDTO> jobOpeningSelectByCareerOrLocation(@RequestParam String career,
-            @RequestParam String location) {
-        List<JobOpeningMainDTO> jobOpeningMainDTO = jobOpeningService.경력과지역선택(career, location);
+    public @ResponseBody List<JobOpeningMainDTO> jobOpeningSelectByCareerOrLocation(
+            @RequestParam(name = "career", required = false) String career,
+            @RequestParam(name = "careerYear", required = false) String careerYear,
+            @RequestParam(name = "location", required = false) String location) {
+        List<JobOpeningMainDTO> jobOpeningMainDTO = jobOpeningService.경력과지역선택(career, careerYear, location);
         return jobOpeningMainDTO;
     }
 
