@@ -94,11 +94,18 @@ public class CommunityService {
         communityRepository.save(community);
     }
 
-    public BoardDetailDTO 상세게시물(Integer id) {
+    public BoardDetailDTO 상세게시물(Integer id, Integer sessionId) {
+
         Optional<Community> communityOP = communityRepository.mfindByIdJoinReplyAndBoard(id);
+
         if (communityOP.isPresent()) {
             Community community = communityOP.get();
 
+            boolean boardOwner = false;
+            // 권한 인증 버튼
+            if (sessionId != null) {
+                boardOwner = sessionId == community.getUser().getId();
+            }
             // Board 날짜포맷
             Date boardCreatedAt = community.getCreatedAt();
             String boardFormatDate = FormatDate.formatDate(boardCreatedAt);
@@ -130,6 +137,7 @@ public class CommunityService {
                     .boardUserName(community.getUser().getUserName())
                     .boardFormatDate(boardFormatDate)
                     .replyList(replyDetailDTOList)
+                    .boardOwner(boardOwner)
                     .build();
 
             return boardDetailDTO;
@@ -139,13 +147,13 @@ public class CommunityService {
         }
     }
 
-    public Community 게시물내용(Integer ssessionId, Integer id) {
+    public Community 게시물내용(Integer sessionId, Integer id) {
         Optional<Community> communityOP = communityRepository.findById(id);
         if (communityOP.isPresent()) {
             Community community = communityOP.get();
 
             // 권한 인증
-            if (ssessionId != community.getUser().getId()) {
+            if (sessionId != community.getUser().getId()) {
                 throw new MyException("게시물 수정의 권한이 없습니다.");
             }
 
@@ -156,13 +164,13 @@ public class CommunityService {
     }
 
     @Transactional
-    public void 게시물수정(Integer ssessionId, Integer id, CommunityRequest.BoardUpdateDTO boardUpdateDTO) {
+    public void 게시물수정(Integer sessionId, Integer id, CommunityRequest.BoardUpdateDTO boardUpdateDTO) {
         Optional<Community> communityOP = communityRepository.findById(id);
         if (communityOP.isPresent()) {
             Community community = communityOP.get();
 
             // 권한 인증
-            if (ssessionId != community.getUser().getId()) {
+            if (sessionId != community.getUser().getId()) {
                 throw new MyException("게시물 수정의 권한이 없습니다.");
             }
 

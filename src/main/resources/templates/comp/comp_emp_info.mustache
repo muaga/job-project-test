@@ -11,22 +11,25 @@
       <div class="position_tab">
         <ul class="position_category" id="position">
           <li>
-            <button class="skill_box" onclick="handleAllClick()">전체</button>
+            <input type="checkbox" class="skill_box" id="positionAll" name="positonAll" onclick="handleAllClick()"></input>
+            <label for="positionAll">전체</label>
           </li>
           {{#positionList}}
           <li>
-            <button class="selected_box" data-id="{{id}}" onclick="handlePositionClick(this)">{{position}}</button>
+            <input type="checkbox" class="skill_box" id="position{{id}}" name="positon" onclick="handlePositionClick('{{id}}')"></input>
+            <label for="position{{id}}">{{position}}</label>
           </li>
           {{/positionList}}
         </ul>
+        <ul class="position_menu">
+          {{#skillList}}
+          <li class="position_skill com_skill">
+            <input type="checkbox" class="skill_box" id="skill{{id}}" name="skill" onclick="handleSkillClick('{{id}}')"></input>
+            <label for="skill{{id}}">{{skill}}</label>
+          </li>
+          {{/skillList}}
+        </ul>
       </div>
-      <ul class="position_menu">
-        {{#skillList}}
-        <li class="position_skill com_skill">
-          <a href="#" class="skill_box" onclick="handleSkillClick('{{id}}')">{{skill}}</a>
-        </li>
-        {{/skillList}}
-      </ul>
     </div>
 
 
@@ -91,10 +94,21 @@
 
 
     // 포지션&기술별 함수 1
-    function handlePositionClick(positionId) {
-      render2(positionId, null);
-      console.log("positionId", positionId);
-    }
+function handlePositionClick(positionId) {
+  console.log("여기야" + positionId);
+  // positionId는 체크박스의 id로 전달됩니다.
+  var checkbox = document.getElementById(`position${positionId}`);
+  
+  if (checkbox.checked) {
+    checkbox.checked = false;
+  } else {
+    // 체크되어 있지 않을 때의 동작
+    render2(positionId, null);
+  }
+  
+  console.log("positionId", positionId);
+}
+
     function handleSkillClick(skillId) {
       render2(null, skillId);
       console.log("skillId", skillId);
@@ -186,9 +200,6 @@
 
     // 포지션&기술별 채용공고 통신코드
     async function download2(positionId, skillId) {
-      console.log('positionId', positionId);
-      console.log('skillId', skillId);
-
       let url = `/api/jobOpening/select/pk`;
       if (positionId == null) {
         url += `?skillId=${skillId}`;

@@ -57,25 +57,5 @@ window.onload = function () {
   });
   // 마이페이지 탭
 
-  // community_write
-  $(document).ready(function () {
-    $('#content').summernote({
-      height: 300,
-      placeholder: '내용을 작성해주세요.',
-      toolbar: [
-        // [groupName, [list of button]]
-        ['fontsize', ['fontsize']],
-        ['style', ['bold', 'italic', 'underline', 'strikethrough', 'clear']],
-        ['color', ['forecolor', 'color']],
-        ['table', ['table']],
-        ['height', ['height']],
-        ['insert', ['picture', 'link', 'video']],
-        ['view', ['fullscreen', 'help']]
-      ],
-      fontSizes: ['8', '9', '10', '11', '12', '14', '16', '18', '20', '22', '24', '28', '30', '36', '50', '72']
-    });
-  });
-
-  // 썸머노트
 
 };

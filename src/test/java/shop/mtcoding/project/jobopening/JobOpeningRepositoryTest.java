@@ -6,23 +6,43 @@ import java.util.List;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
+import org.springframework.context.annotation.Import;
 
 import shop.mtcoding.project._core.util.Split;
 import shop.mtcoding.project.jobopening.JobOpeningResponse.JobOpeningMainDTO;
 import shop.mtcoding.project.skill.RequiredSkill;
 
+@Import(JobOpeningQueryRepository.class)
 @DataJpaTest
 public class JobOpeningRepositoryTest {
 
     @Autowired
     private JobOpeningRepository jobOpeningRepository;
 
+    @Autowired
+    private JobOpeningQueryRepository jobOpeningQueryRepository;
+
+    @Test
+    public void findByIdJoinPositionAndSkill_test() {
+        List<Integer> positionIdList = new ArrayList<>();
+        positionIdList.add(1);
+        List<Integer> skillIdList = new ArrayList<>();
+        skillIdList.add(1);
+        List<JobOpeningMainDTO> dtos = jobOpeningQueryRepository.findByIdJoinPositionAndSkill(positionIdList,
+                skillIdList);
+        for (JobOpeningMainDTO jobOpeningMainDTO : dtos) {
+            System.out.println("테스트 : " + jobOpeningMainDTO.getTitle());
+        }
+    }
+
     @Test
     public void mFfindBySelectedPositionOrSkill_test() {
-        List<JobOpening> jobOpeningList = jobOpeningRepository.mFfindBySelectedPositionOrSkill(1, null);
+        List<JobOpening> jobOpeningList = jobOpeningRepository.mFindBySelectedPositionAndSkill(1, null);
         for (JobOpening jobOpening : jobOpeningList) {
             System.out.println("테스트 : " + jobOpening.getTitle());
         }
+
+        // and하면 하나가 null 값이면 아예 나오지 않는다.
 
         // List<JobOpening> jobOpeningList1 =
         // jobOpeningRepository.mFfindBySelectedPositionAndSkill(1, 1);

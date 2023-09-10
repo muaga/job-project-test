@@ -7,6 +7,9 @@
             <!-- container 건들지 말기 -->
 
             <!-- 게시글내용 -->
+            <div class="back">
+                <button type="submit" class="btn" onclick="historyBack()">뒤로가기</button>
+            </div>
             <div class="pt-1 d-flex justify-content-start">
                 <div class="card card_board_detail form-control">
                     <div class="card_board">
@@ -86,16 +89,12 @@
                 </div>
             </div>
         </div>
-
-
-
-        <!-- 댓글리스트 -->
-
-
-
-
-        </div>
     </main>
+    <script>
+        function historyBack(){
+            history.back();
+        }
+    </script>
     <!--메인-->
 
 {{>layout/footer}}

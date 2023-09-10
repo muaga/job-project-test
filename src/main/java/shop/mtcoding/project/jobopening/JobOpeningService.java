@@ -210,14 +210,14 @@ public class JobOpeningService {
 
         if (positionId != null && skillId == null) {
             skillId = null;
-            jobCareer = jobOpeningRepository.mFfindBySelectedPositionOrSkill(positionId, skillId);
+            jobCareer = jobOpeningRepository.mFindBySelectedPositionOrSkill(positionId, skillId);
         }
         if (skillId != null && positionId == null) {
             positionId = null;
-            jobCareer = jobOpeningRepository.mFfindBySelectedPositionOrSkill(positionId, skillId);
+            jobCareer = jobOpeningRepository.mFindBySelectedPositionOrSkill(positionId, skillId);
         }
         if (positionId != null && skillId != null) {
-            jobCareer = jobOpeningRepository.mFfindBySelectedPositionAndSkill(positionId, skillId);
+            jobCareer = jobOpeningRepository.mFindBySelectedPositionAndSkill(positionId, skillId);
         }
 
         // jobOpening을 담기 위한 List

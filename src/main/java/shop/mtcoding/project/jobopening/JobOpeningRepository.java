@@ -32,7 +32,7 @@ public interface JobOpeningRepository extends JpaRepository<JobOpening, Integer>
                         "left join j.requiredSkillList rs " +
                         "where (rp.position.id = :positionId or :positionId is null) " +
                         "and (rs.skill.id = :skillId or :skillId is null)")
-        List<JobOpening> mFfindBySelectedPositionOrSkill(@Param("positionId") Integer positionId,
+        List<JobOpening> mFindBySelectedPositionOrSkill(@Param("positionId") Integer positionId,
                         @Param("skillId") Integer skillId);
 
         // 포지션과 기술 조회
@@ -40,7 +40,7 @@ public interface JobOpeningRepository extends JpaRepository<JobOpening, Integer>
                         "left join j.requiredPositionList rp " +
                         "left join j.requiredSkillList rs " +
                         "where rp.position.id = :positionId and rs.skill.id = :skillId")
-        List<JobOpening> mFfindBySelectedPositionAndSkill(@Param("positionId") Integer positionId,
+        List<JobOpening> mFindBySelectedPositionAndSkill(@Param("positionId") Integer positionId,
                         @Param("skillId") Integer skillId);
 
 }
