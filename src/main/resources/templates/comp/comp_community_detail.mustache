@@ -23,6 +23,7 @@
                                     </ul>
                                 </div>
                             </div>
+                            {{#boardDetailDTO.boardOwner}}
                             <ul class="navbar-nav">
                                 <li class="card_detail dropdown">
                                     <a class="nav-link dropdown-toggle" href="#" role="button"
@@ -38,6 +39,7 @@
                                     </ul>
                                 </li>
                             </ul>
+                            {{/boardDetailDTO.boardOwner}}
                         </div>
                         <hr />
                         <div class="card_body">
@@ -72,6 +74,7 @@
                                     <p class="mb-0">{{comment}}</p>
                                 </div>
                             </div>
+                            {{#replyOwner}}
                             <ul class="navbar-nav">
                                 <li class="card_detail dropdown">
                                     <a class="nav-link dropdown-toggle" href="#" role="button"
@@ -84,6 +87,7 @@
                                     </ul>
                                 </li>
                             </ul>
+                            {{/replyOwner}}
                         </div>
                     {{/boardDetailDTO.replyList}}
                 </div>

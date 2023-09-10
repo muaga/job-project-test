@@ -15,11 +15,11 @@ public class ReplyResponse {
         private String comment;
         private String replyUserName;
         private String replyFormatDate;
-        private String replyOwner;
+        private boolean replyOwner;
 
         @Builder
         public ReplyDetailDTO(Integer replyId, String comment, String replyUserName, String replyFormatDate,
-                String replyOwner) {
+                boolean replyOwner) {
             this.replyId = replyId;
             this.comment = comment;
             this.replyUserName = replyUserName;

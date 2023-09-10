@@ -20,6 +20,7 @@ import shop.mtcoding.project._core.util.FormatDate;
 import shop.mtcoding.project.community.CommunityResponse.BoardDetailDTO;
 import shop.mtcoding.project.community.CommunityResponse.BoardListDTO;
 import shop.mtcoding.project.reply.Reply;
+import shop.mtcoding.project.reply.ReplyRepository;
 import shop.mtcoding.project.reply.ReplyResponse.ReplyDetailDTO;
 import shop.mtcoding.project.user.User;
 
@@ -28,6 +29,9 @@ public class CommunityService {
 
     @Autowired
     private CommunityRepository communityRepository;
+
+    @Autowired
+    private ReplyRepository replyRepository;
 
     public Page<BoardListDTO> 게시물목록(Integer page) {
         Pageable pageable = PageRequest.of(page, 3, Sort.Direction.DESC, "id");
@@ -80,10 +84,10 @@ public class CommunityService {
 
         // 공백 또는 null 방지
         if (boardSaveDTO.getTitle() == null || boardSaveDTO.getTitle().isEmpty()) {
-            throw new MyException("내용을 전부 입력해주세요");
+            throw new MyException("내용을 입력해주세요");
         }
         if (boardSaveDTO.getContent() == null || boardSaveDTO.getContent().isEmpty()) {
-            throw new MyException("내용을 전부 입력해주세요");
+            throw new MyException("내용을 입력해주세요");
         }
 
         Community community = Community.builder()
@@ -101,20 +105,26 @@ public class CommunityService {
         if (communityOP.isPresent()) {
             Community community = communityOP.get();
 
+            // 게시글 권한 인증 버튼
             boolean boardOwner = false;
-            // 권한 인증 버튼
             if (sessionId != null) {
                 boardOwner = sessionId == community.getUser().getId();
             }
+
             // Board 날짜포맷
             Date boardCreatedAt = community.getCreatedAt();
             String boardFormatDate = FormatDate.formatDate(boardCreatedAt);
 
             // Reply 날짜포맷
             List<Reply> replyList = community.getReplyList();
-
             List<ReplyDetailDTO> replyDetailDTOList = new ArrayList<>();
             for (Reply reply : replyList) {
+
+                // 댓글 권한 인증 버튼
+                boolean replyOwner = false;
+                if (sessionId != null) {
+                    replyOwner = sessionId == reply.getUser().getId();
+                }
 
                 Date replyCreatedAt = reply.getCreatedAt();
                 String replyFormatDate = FormatDate.formatDate(replyCreatedAt);
@@ -124,6 +134,7 @@ public class CommunityService {
                         .comment(reply.getComment())
                         .replyUserName(reply.getUser().getUserName())
                         .replyFormatDate(replyFormatDate)
+                        .replyOwner(replyOwner)
                         .build();
 
                 replyDetailDTOList.add(replyDetailDTO);
@@ -151,7 +162,6 @@ public class CommunityService {
         Optional<Community> communityOP = communityRepository.findById(id);
         if (communityOP.isPresent()) {
             Community community = communityOP.get();
-
             // 권한 인증
             if (sessionId != community.getUser().getId()) {
                 throw new MyException("게시물 수정의 권한이 없습니다.");
@@ -176,10 +186,10 @@ public class CommunityService {
 
             // 공백 또는 null 방지
             if (boardUpdateDTO.getTitle() == null || boardUpdateDTO.getTitle().isEmpty()) {
-                throw new MyException("내용을 전부 입력해주세요");
+                throw new MyException("내용을 입력해주세요");
             }
             if (boardUpdateDTO.getContent() == null || boardUpdateDTO.getContent().isEmpty()) {
-                throw new MyException("내용을 전부 입력해주세요");
+                throw new MyException("내용을 입력해주세요");
             }
 
             community.setTitle(boardUpdateDTO.getTitle());
