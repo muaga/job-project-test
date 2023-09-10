@@ -119,7 +119,7 @@ public class CommunityController {
     @GetMapping("/user/community/board/{id}")
     public String userBoardDetailForm(@PathVariable Integer id, Model model) {
         User sessionUser = (User) session.getAttribute("sessionUser");
-        BoardDetailDTO boardDetailDTO = communityService.상세게시물(id, sessionUser.getId());
+        BoardDetailDTO boardDetailDTO = communityService.상세게시물(id, 1);
         model.addAttribute("boardDetailDTO", boardDetailDTO);
         return "user/user_community_detail";
     }
