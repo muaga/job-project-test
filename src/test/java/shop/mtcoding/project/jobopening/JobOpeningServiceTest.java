@@ -9,7 +9,10 @@ import javax.servlet.http.HttpSession;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import shop.mtcoding.project._core.util.Split;
+import shop.mtcoding.project.jobopening.JobOpeningResponse.JobOpeningMainDTO;
 import shop.mtcoding.project.resume.ResumeRepository;
+import shop.mtcoding.project.skill.RequiredSkill;
 import shop.mtcoding.project.user.User;
 import shop.mtcoding.project.user.UserRepository;
 
@@ -17,6 +20,47 @@ public class JobOpeningServiceTest {
 
     @Autowired
     private UserRepository userRepository;
+
+    @Autowired
+    private JobOpeningRepository jobOpeningRepository;
+
+    @Test
+    public void 경력선택_test() {
+        // String career = "신입";
+        List<JobOpening> jobCareer;
+        List<JobOpeningMainDTO> jobOpeningMainDTOList = new ArrayList<>();
+
+        // if ("신입".equals("신입")) {
+        // // 경력이 '신입'인 경우, careerYear 값은 무시하고 '신입'인 채용 정보만 가져옵니다.
+        // jobCareer = jobOpeningRepository.findBySelectedCareerOrCareerYear("신입");
+        // } else {
+        // // 그 외의 경우에는 선택한 career 및 careerYear에 따라 필터링합니다.
+        // jobCareer = jobOpeningRepository.findBySelectedCareerOrCareerYear("신입");
+        // }
+
+        // for (JobOpening jobOpening : jobCareer) {
+        // for (RequiredSkill requiredSkill : jobOpening.getRequiredSkillList()) {
+        // // 이중 for문을 방지하기 위해, 배열을 하나의 문자열로 만들기
+        // String skillListString = String.join(" · ",
+        // requiredSkill.getSkill().getSkill());
+
+        // // 주소 포맷
+        // String Address = jobOpening.getCompAddress();
+        // String compAddressFormat = Split.AddressSplit(Address);
+
+        // JobOpeningMainDTO jobOpeningMainDTO = JobOpeningMainDTO.builder()
+        // .jobOpeningId(jobOpening.getId())
+        // .title(jobOpening.getTitle())
+        // .compName(jobOpening.getUser().getUserName())
+        // .compAddress(compAddressFormat)
+        // .career(jobOpening.getCareer())
+        // .careerYear(jobOpening.getCareerYear())
+        // .skill(skillListString)
+        // .build();
+        // jobOpeningMainDTOList.add(jobOpeningMainDTO);
+        // }
+        // }
+    }
 
     // @Test
     // public void careerYearChange_test() {
@@ -42,7 +86,7 @@ public class JobOpeningServiceTest {
 
         // List<Resume> resumeList = resumeRepository.mfindByUserId(1);
 
-        User user = userRepository.findById(1).get();
+        // User user = userRepository.findById(1).get();
 
         // try {
         // System.out.println("테스트 : " + resumeList.get(0).getTitle());

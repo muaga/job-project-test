@@ -109,9 +109,10 @@ public class JobOpeningController {
     }
 
     @GetMapping("/api/jobOpening/select/career")
-    public @ResponseBody List<JobOpeningMainDTO> jobOpeningSelectByCareer(@RequestParam Integer careerId) {
+    public @ResponseBody List<JobOpeningMainDTO> jobOpeningSelectByCareer(@RequestParam String career,
+            @RequestParam String location) {
         // 경력(experienceId)을 기반으로 데이터 필터링
-        List<JobOpeningMainDTO> jobOpeningMainDTO = jobOpeningService.경력선택(careerId);
+        List<JobOpeningMainDTO> jobOpeningMainDTO = jobOpeningService.경력선택(career, location);
         return jobOpeningMainDTO;
     }
 

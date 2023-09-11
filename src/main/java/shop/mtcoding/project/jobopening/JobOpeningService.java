@@ -73,7 +73,6 @@ public class JobOpeningService {
                     .compName(requiredPosition.getJobOpening().getUser().getUserName())
                     .compAddress(compAddressFormat)
                     .career(requiredPosition.getJobOpening().getCareer())
-                    .careerYear(requiredPosition.getJobOpening().getCareerYear())
                     .skill(skillListString)
                     .build();
             jobOpeningMainDTOList.add(jobOpeningMainDTO);
@@ -109,7 +108,6 @@ public class JobOpeningService {
                     .compName(jobOpening.getUser().getUserName())
                     .compAddress(compAddressFormat)
                     .career(jobOpening.getCareer())
-                    .careerYear(jobOpening.getCareerYear())
                     .skill(skillListString)
                     .build();
             jobOpeningMainDTOList.add(jobOpeningMainDTO);
@@ -173,7 +171,6 @@ public class JobOpeningService {
                     .title(jobOpening.getTitle())
                     .process(jobOpening.getProcess())
                     .career(jobOpening.getCareer())
-                    .careerYear(jobOpening.getCareerYear())
                     .edu(jobOpening.getEdu())
                     .compName(jobOpening.getUser().getUserName())
                     .compAddress(jobOpening.getCompAddress())
@@ -214,7 +211,6 @@ public class JobOpeningService {
                     .compName(requiredSkill.getJobOpening().getUser().getUserName())
                     .compAddress(compAddressFormat)
                     .career(requiredSkill.getJobOpening().getCareer())
-                    .careerYear(requiredSkill.getJobOpening().getCareerYear())
                     .skill(skillListString)
                     .build();
             jobOpeningMainDTOList.add(jobOpeningMainDTO);
@@ -223,29 +219,45 @@ public class JobOpeningService {
         return jobOpeningMainDTOList;
     }
 
-    public List<JobOpeningMainDTO> 경력선택(Integer careerId, String career, String careerYear) {
+    public List<JobOpeningMainDTO> 경력선택(String career, String location) {
 
-        List<JobOpening> jobCareer;
+        List<JobOpening> jobCareer = null;
         List<JobOpeningMainDTO> jobOpeningMainDTOList = new ArrayList<>();
 
-        if ("신입".equals(career)) {
-            // 경력이 '신입'인 경우, careerYear 값은 무시하고 '신입'인 채용 정보만 가져옵니다.
-            jobCareer = jobOpeningRepository.findBySelectedCareerOrCareerYear("신입", null);
-        } else {
-            // 그 외의 경우에는 선택한 career 및 careerYear에 따라 필터링합니다.
-            jobCareer = jobOpeningRepository.findBySelectedCareerOrCareerYear(career, careerYear);
+        jobCareer = jobOpeningRepository.findBySelectedCareerOrLocation(career, location);
+
+        // jobOpening을 담기 위한 List
+        for (JobOpening jobOpening : jobCareer) {
+
+            // skillName을 담기 위한 List
+            List<String> skillName = new ArrayList<>();
+            for (RequiredSkill requiredSkill : jobOpening.getRequiredSkillList()) {
+                String skill = requiredSkill.getSkill().getSkill();
+                skillName.add(skill);
+            }
+
+            // 이중 for문을 방지하기 위해, 배열을 하나의 문자열로 만들기
+            String skillListString = String.join(" · ", skillName);
+
+            // 주소 포맷
+            String Address = jobOpening.getCompAddress();
+            String compAddressFormat = Split.AddressSplit(Address);
+
+            JobOpeningMainDTO jobOpeningMainDTO = JobOpeningMainDTO.builder()
+                    .jobOpeningId(jobOpening.getId())
+                    .title(jobOpening.getTitle())
+                    .compName(jobOpening.getUser().getUserName())
+                    .compAddress(compAddressFormat)
+                    .career(jobOpening.getCareer())
+                    .skill(skillListString)
+                    .build();
+            jobOpeningMainDTOList.add(jobOpeningMainDTO);
         }
-
-        JobOpeningMainDTO jobOpeningMainDTO = JobOpeningMainDTO.builder()
-                .career(career)
-                .careerYear(careerYear)
-                .build();
-        jobOpeningMainDTOList.add(jobOpeningMainDTO);
-
         return jobOpeningMainDTOList;
     }
 
     public List<JobOpeningMainDTO> 지역선택(Integer locationId) {
+
         return null;
     }
 
