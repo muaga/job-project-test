@@ -46,18 +46,18 @@ public class CommunityResponse {
         private String boardFormatDate;
 
         private List<ReplyDetailDTO> replyList;
-        private boolean replyOwner;
+        private boolean boardOwner;
 
         @Builder
         public BoardDetailDTO(Integer boardId, String title, String content, String boardUserName,
-                String boardFormatDate, List<ReplyDetailDTO> replyList, boolean replyOwner) {
+                String boardFormatDate, List<ReplyDetailDTO> replyList, boolean boardOwner) {
             this.boardId = boardId;
             this.title = title;
             this.content = content;
             this.boardUserName = boardUserName;
             this.boardFormatDate = boardFormatDate;
             this.replyList = replyList;
-            this.replyOwner = replyOwner;
+            this.boardOwner = boardOwner;
         }
     }
 

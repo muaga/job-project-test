@@ -22,7 +22,7 @@ public class ReplyService {
 
         // 공백 또는 null 방지
         if (replySaveDTO.getComment() == null || replySaveDTO.getComment().isEmpty()) {
-            throw new MyException("내용을 전부 입력해주세요");
+            throw new MyException("내용을 입력해주세요");
         }
 
         Reply reply = Reply.builder()

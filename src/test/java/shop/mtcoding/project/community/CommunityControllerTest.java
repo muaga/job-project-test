@@ -26,7 +26,7 @@ public class CommunityControllerTest {
 
     @Test
     public void compBoardDetail_test() {
-        BoardDetailDTO boardDetailDTO = communityService.상세게시물(2);
+        BoardDetailDTO boardDetailDTO = communityService.상세게시물(1, 2);
         System.out.println("테스트 : " + boardDetailDTO);
     }
 

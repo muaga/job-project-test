@@ -18,4 +18,5 @@ public class Split {
         String formatAddress = splitAddress[0] + " " + splitAddress[1];
         return formatAddress;
     }
+
 }

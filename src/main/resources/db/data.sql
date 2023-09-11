@@ -5,22 +5,24 @@ insert into user_tb (user_email_id, user_name, user_password, user_pic_url, crea
 -- 여기는 회사가 유저의 이력서를 스크랩한 상태 --
 insert into user_tb (comp_email_id, user_name, user_password, comp_history, comp_intro, comp_pic_url, created_at, gubun) values('toss@nate.com','toss', '1234', '2010-10-25', '세계1위 토스입니다', 'comp_img01.png', now(), 2);
 insert into user_tb (comp_email_id, user_name, user_password, comp_history, comp_intro, comp_pic_url, created_at, gubun) values('naver@nate.com', 'naver', '1234','2000-11-15', '세계1위 네이버입니다', 'comp_img01.png', now(), 2);
-insert into user_tb (comp_email_id, user_name, user_password, comp_history, comp_intro, comp_pic_url, created_at, gubun) values('kakao@nate.com', 'kakao', '1234','2005-12-01', '세계1위 카카오입니다', 'basic.jpg', now(), 2);
+insert into user_tb (comp_email_id, user_name, user_password, comp_history, comp_intro, comp_pic_url, created_at, gubun) values('kakao@nate.com', 'kakao', '1234','2005-12-01', '세계1위 카카오입니다', 'comp_img01.png', now(), 2);
 --
 insert into comp_scrap_tb (created_at) values(now());
 insert into comp_scrap_tb (created_at) values(now());
 insert into comp_scrap_tb (created_at) values(now());
-insert into job_opening_tb (user_id, title, process, career, edu, comp_address, dead_line, created_at) values ('4', '네이버 공고글', '채용절차는 코딩테스트 후 면접입니다', '신입', '대졸', '부산 광안리', now(), now());
-insert into job_opening_tb (user_id, title, process, career, edu, comp_address, dead_line, created_at) values ('4', '토스 공고글', '채용절차는 코딩테스트 후 면접입니다', '경력 1년차',  '초대졸', '부산 서면', now(), now());
-insert into job_opening_tb (user_id, title, process, career, edu, comp_address, dead_line, created_at) values ('5', '카카오 공고글', '채용절차는 코딩테스트 후 면접입니다', '경력 5년차', '고졸', '부산 장산', now(), now());
-insert into job_opening_tb (user_id, title, process, career, edu, comp_address, dead_line, created_at) values ('5', '삼성 공고글', '채용절차는 코딩테스트 후 면접입니다', '신입', '고졸', '부산 장산', now(), now());
-insert into job_opening_tb (user_id, title, process, career, edu, comp_address, dead_line, created_at) values ('6', '다음 공고글', '채용절차는 코딩테스트 후 면접입니다', '경력 5년차', '고졸', '부산 장산', now(), now());
-insert into job_opening_tb (user_id, title, process, career, edu, comp_address, dead_line, created_at) values ('6', '애플 공고글', '채용절차는 코딩테스트 후 면접입니다', '신입', '고졸', '부산 장산', now(), now());
-insert into job_opening_tb (user_id, title, process, career, edu, comp_address, dead_line, created_at) values ('5', '테슬러 공고글', '채용절차는 코딩테스트 후 면접입니다', '경력 2년차', '고졸', '부산 장산', now(), now());
-insert into job_opening_tb (user_id, title, process, career, edu, comp_address, dead_line, created_at) values ('4', '마이크로소프트 공고글', '채용절차는 코딩테스트 후 면접입니다', '경력 3년차', '고졸', '부산 장산', now(), now());
-insert into job_opening_tb (user_id, title, process, career, edu, comp_address, dead_line, created_at) values ('5', '아마존 공고글', '채용절차는 코딩테스트 후 면접입니다', '경력 1년차', '고졸', '부산 장산', now(), now());
+insert into job_opening_tb (user_id, title, process, career, career_year, edu, comp_address, dead_line, created_at) values ('4', '네이버 공고글', '채용절차는 코딩테스트 후 면접입니다', '신입', null, '대졸', '부산 광안리', now(), now());
+insert into job_opening_tb (user_id, title, process, career, career_year, edu, comp_address, dead_line, created_at) values ('5', '카카오 공고글', '채용절차는 코딩테스트 후 면접입니다', '경력', '5년차', '고졸', '부산 장산', now(), now());
+insert into job_opening_tb (user_id, title, process, career, career_year, edu, comp_address, dead_line, created_at) values ('5', '삼성 공고글', '채용절차는 코딩테스트 후 면접입니다', '신입', null, '고졸', '부산 장산', now(), now());
+insert into job_opening_tb (user_id, title, process, career, career_year, edu, comp_address, dead_line, created_at) values ('4', '토스 공고글', '채용절차는 코딩테스트 후 면접입니다', '경력', '1년차',  '초대졸', '부산 서면', now(), now());
+insert into job_opening_tb (user_id, title, process, career, career_year, edu, comp_address, dead_line, created_at) values ('6', '다음 공고글', '채용절차는 코딩테스트 후 면접입니다', '경력', '5년차', '고졸', '서울 장산', now(), now());
+insert into job_opening_tb (user_id, title, process, career, career_year, edu, comp_address, dead_line, created_at) values ('6', '애플 공고글', '채용절차는 코딩테스트 후 면접입니다', '신입', null, '고졸', '부산 장산', now(), now());
+insert into job_opening_tb (user_id, title, process, career, career_year, edu, comp_address, dead_line, created_at) values ('5', '테슬러 공고글', '채용절차는 코딩테스트 후 면접입니다', '경력', '2년차', '고졸', '부산 장산', now(), now());
+insert into job_opening_tb (user_id, title, process, career, career_year, edu, comp_address, dead_line, created_at) values ('4', '마이크로소프트 공고글', '채용절차는 코딩테스트 후 면접입니다', '경력', '3년차', '고졸', '부산 장산', now(), now());
+insert into job_opening_tb (user_id, title, process, career, career_year, edu, comp_address, dead_line, created_at) values ('5', '아마존 공고글', '채용절차는 코딩테스트 후 면접입니다', '경력', '1년차', '고졸', '제주 장산', now(), now());
 
-
+insert into job_opening_tb (user_id, title, process, career, career_year, edu, comp_address, dead_line, created_at) values ('4', '네이버 공고글', '채용절차는 코딩테스트 후 면접입니다', '경력', '1년차', '대졸', '부산 광안리', now(), now());
+insert into job_opening_tb (user_id, title, process, career, career_year, edu, comp_address, dead_line, created_at) values ('4', '토스 공고글', '채용절차는 코딩테스트 후 면접입니다', '경력', '2년차', '초대졸', '창원 서면', now(), now());
+insert into job_opening_tb (user_id, title, process, career, career_year, edu, comp_address, dead_line, created_at) values ('5', '카카오 공고글', '채용절차는 코딩테스트 후 면접입니다', '경력', '5년차', '고졸', '부산 장산', now(), now());
 -- insert into user_scrap_tb (created_at, user_id, job_opening_id) values(now(), '1', '1');
 -- insert into user_scrap_tb (created_at, user_id, job_opening_id) values(now(), '2', '1');
 -- insert into user_scrap_tb (created_at, user_id, job_opening_id) values(now(), '2', '2');
@@ -48,27 +50,34 @@ insert into position_and_skill_tb (position_id, skill_id) values ('1', '4');
 insert into position_and_skill_tb (position_id, skill_id) values ('1', '5');
 
 insert into required_position_tb (position_id, job_opening_id) values ('1', '1');
-insert into required_position_tb (position_id, job_opening_id) values ('2', '1');
-insert into required_position_tb (position_id, job_opening_id) values ('3', '1');
-insert into required_position_tb (position_id, job_opening_id) values ('4', '1');
-insert into required_position_tb (position_id, job_opening_id) values ('5', '1');
-insert into required_position_tb (position_id, job_opening_id) values ('1', '2');
-insert into required_position_tb (position_id, job_opening_id) values ('1', '3');
-insert into required_position_tb (position_id, job_opening_id) values ('3', '4');
+-- insert into required_position_tb (position_id, job_opening_id) values ('2', '1');
+-- insert into required_position_tb (position_id, job_opening_id) values ('3', '1');
+-- insert into required_position_tb (position_id, job_opening_id) values ('4', '1');
+-- insert into required_position_tb (position_id, job_opening_id) values ('5', '1');
+-----------------------------------------------------------------------------------
+insert into required_position_tb (position_id, job_opening_id) values ('2', '2');
+-----------------------------------------------------------------------------------
+insert into required_position_tb (position_id, job_opening_id) values ('3', '3');
+-----------------------------------------------------------------------------------
+insert into required_position_tb (position_id, job_opening_id) values ('4', '4');
+-----------------------------------------------------------------------------------
 insert into required_position_tb (position_id, job_opening_id) values ('5', '5');
 insert into required_skill_tb (skill_id, job_opening_id) values('1', '1');
 insert into required_skill_tb (skill_id, job_opening_id) values('2', '1');
+insert into required_skill_tb (skill_id, job_opening_id) values('2', '2');
 insert into required_skill_tb (skill_id, job_opening_id) values('3', '2');
-insert into required_skill_tb (skill_id, job_opening_id) values('4', '2');
-insert into required_skill_tb (skill_id, job_opening_id) values('5', '3');
-insert into required_skill_tb (skill_id, job_opening_id) values('1', '4');
-insert into required_skill_tb (skill_id, job_opening_id) values('1', '4');
+insert into required_skill_tb (skill_id, job_opening_id) values('3', '3');
+insert into required_skill_tb (skill_id, job_opening_id) values('4', '4');
+insert into required_skill_tb (skill_id, job_opening_id) values('5', '5');
 insert into resume_tb (user_id, title, resume_pic_url, user_name, user_email_id, birth, tel, address, sub_intro, career, career_year, edu, main_intro, created_at) values ('1', 'ssar 이력서입니다', null, 'ssar', 'ssar@nate.com', now(), '010-2222-3333', '부산 서면 전포', '열심히하는 개발자가 되겠습니다', '경력', '2년차', '대졸', '부산/25/남/ssar입니다 어렸을때부터 메타코딩 개발자님 영상을 보며 개발자를 꿈꿧습니다.', now());
 insert into resume_tb (user_id, title, resume_pic_url, user_name, user_email_id, birth, tel, address, sub_intro, career, career_year, edu, main_intro, created_at) values ('1', 'ssar2 이력서입니다', null, 'ssar', 'ssar@nate.com', now(), '010-2222-3333', '부산 서면 전포', '열심히하는 개발자가 되겠습니다', '경력', '2년차', '대졸', '부산/25/남/ssar입니다 어렸을때부터 메타코딩 개발자님 영상을 보며 개발자를 꿈꿧습니다.', now());
 insert into resume_tb (user_id, title, resume_pic_url, user_name, user_email_id, birth, tel, address, sub_intro, career, career_year, edu, main_intro, created_at) values ('2', 'cos 이력서입니다', null, 'cos', 'cos@nate.com', now(), '010-4444-3333', '부산 광안리', '포기하지않는 개발자가 되겠습니다', '신입', null, '대졸', '부산/20/남/cos입니다 어렸을때부터 메타코딩 개발자님 영상을 보며 개발자를 꿈꿧습니다.', now());
 insert into has_skill_tb (skill_id, resume_id) values('1', '1');
+insert into has_skill_tb (skill_id, resume_id) values('2', '1');
 insert into has_skill_tb (skill_id, resume_id) values('2', '2');
+insert into has_skill_tb (skill_id, resume_id) values('3', '2');
 insert into has_skill_tb (skill_id, resume_id) values('3', '3');
+insert into has_skill_tb (skill_id, resume_id) values('4', '3');
 
 insert into community_tb (title, content, created_at, user_id) values('제목1', '내용1', now(), '1');
 insert into community_tb (title, content, created_at, user_id) values('제목2', '내용2', now(), '2');
@@ -94,3 +103,8 @@ insert into qualified_tb (qualified_content, job_opening_id) values('CI CD 툴�
 insert into qualified_tb (qualified_content, job_opening_id) values('Java 기반 실무 경험', '3');
 insert into qualified_tb (qualified_content, job_opening_id) values('MySQL 사용 경험 필수', '3');
 insert into qualified_tb (qualified_content, job_opening_id) values('CI CD 툴을 활용한 빌드,테스트,배포 자동화 경험', '3');
+
+insert into comp_scrap_tb (user_id, resume_id) values ('1', '1');
+insert into user_scrap_tb (user_id, job_opening_id) values ('1', '1');
+insert into user_scrap_tb (user_id, job_opening_id) values ('1', '2');
+insert into user_scrap_tb (user_id, job_opening_id) values ('1', '3');

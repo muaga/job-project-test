@@ -47,39 +47,49 @@ public class JobOpeningService {
     @Autowired
     private QualifiedRepository qualifiedRepository;
 
-    public List<JobOpeningMainDTO> 포지션별채용정보(Integer positionId) {
-        List<RequiredPosition> requiredPositionList = requiredPositionRepository.mFindByIdJoinPositionId(positionId);
+    @Autowired
+    private JobOpeningQueryRepository jobOpeningQueryRepository;
 
-        List<JobOpeningMainDTO> jobOpeningMainDTOList = new ArrayList<>();
-        for (RequiredPosition requiredPosition : requiredPositionList) {
+    // public List<JobOpeningMainDTO> 포지션별채용정보(Integer positionId, Integer skillId)
+    // {
+    // List<RequiredPosition> requiredPositionList =
+    // requiredPositionRepository.mFindByIdJoinPositionId(positionId);
+    // List<RequiredSkill> requiredSkillList =
+    // requiredSkillRepository.mfindByIdJoinSkillAndJobOpening(skillId);
 
-            // skillName을 담기 위한 List
-            List<String> skillName = new ArrayList<>();
-            for (RequiredSkill requiredSkill : requiredPosition.getJobOpening().getRequiredSkillList()) {
-                String skill = requiredSkill.getSkill().getSkill();
-                skillName.add(skill);
-            }
+    // List<JobOpeningMainDTO> jobOpeningMainDTOList = new ArrayList<>();
+    // for (RequiredPosition requiredPosition : requiredPositionList) {
 
-            // 이중 for문을 방지하기 위해, 배열을 하나의 문자열로 만들기
-            String skillListString = String.join(" · ", skillName);
+    // // skillName을 담기 위한 List
+    // List<String> skillName = new ArrayList<>();
+    // for (RequiredSkill requiredSkill :
+    // requiredPosition.getJobOpening().getRequiredSkillList()) {
+    // String skill = requiredSkill.getSkill().getSkill();
+    // skillName.add(skill);
+    // }
 
-            // 주소 포맷
-            String Address = requiredPosition.getJobOpening().getCompAddress();
-            String compAddressFormat = Split.AddressSplit(Address);
+    // // 이중 for문을 방지하기 위해, 배열을 하나의 문자열로 만들기
+    // String skillListString = String.join(" · ", skillName);
 
-            JobOpeningMainDTO jobOpeningMainDTO = JobOpeningMainDTO.builder()
-                    .jobOpeningId(requiredPosition.getJobOpening().getId())
-                    .title(requiredPosition.getJobOpening().getTitle())
-                    .compName(requiredPosition.getJobOpening().getUser().getUserName())
-                    .compAddress(compAddressFormat)
-                    .career(requiredPosition.getJobOpening().getCareer())
-                    .skill(skillListString)
-                    .build();
-            jobOpeningMainDTOList.add(jobOpeningMainDTO);
-        }
+    // // 주소 포맷
+    // String Address = requiredPosition.getJobOpening().getCompAddress();
+    // String compAddressFormat = Split.AddressSplit(Address);
 
-        return jobOpeningMainDTOList;
-    }
+    // JobOpeningMainDTO jobOpeningMainDTO = JobOpeningMainDTO.builder()
+    // .jobOpeningId(requiredPosition.getJobOpening().getId())
+    // .title(requiredPosition.getJobOpening().getTitle())
+    // .compName(requiredPosition.getJobOpening().getUser().getUserName())
+    // .compAddress(compAddressFormat)
+    // .career(requiredPosition.getJobOpening().getCareer())
+    // .skill(skillListString)
+    // .build();
+    // jobOpeningMainDTOList.add(jobOpeningMainDTO);
+    // }
+
+    // return jobOpeningMainDTOList;
+    // }
+
+    ///////////////////////////////////////////////////////////////////////////////////////////
 
     public List<JobOpeningMainDTO> 메인화면() {
         List<JobOpening> jobOpeningList = jobOpeningRepository.mfindByAllJoinJobOpeningAndUser();
@@ -102,18 +112,26 @@ public class JobOpeningService {
             String Address = jobOpening.getCompAddress();
             String compAddressFormat = Split.AddressSplit(Address);
 
+            // careeryear null 방지
+            String JcareerYear = jobOpening.getCareerYear();
+            if (JcareerYear == null || "null".equals(JcareerYear)) {
+                JcareerYear = "";
+            }
             JobOpeningMainDTO jobOpeningMainDTO = JobOpeningMainDTO.builder()
                     .jobOpeningId(jobOpening.getId())
                     .title(jobOpening.getTitle())
                     .compName(jobOpening.getUser().getUserName())
                     .compAddress(compAddressFormat)
                     .career(jobOpening.getCareer())
+                    .careerYear(JcareerYear)
                     .skill(skillListString)
                     .build();
             jobOpeningMainDTOList.add(jobOpeningMainDTO);
         }
         return jobOpeningMainDTOList;
     }
+
+    /////////////////////////////////////////////////////////////////////////////
 
     public JobOpeningDetailDTO 상세채용공고(Integer id) {
         Optional<JobOpening> jobOpeningOP = jobOpeningRepository.findById(id);
@@ -165,12 +183,19 @@ public class JobOpeningService {
                 skillNameDTOList.add(skillNameDTO);
             }
 
+            // careeryear null 방지
+            String JcareerYear = jobOpening.getCareerYear();
+            if (JcareerYear == null || "null".equals(JcareerYear)) {
+                JcareerYear = "";
+            }
+
             // view를 하기 위한 DTO
             JobOpeningDetailDTO jobOpeningDetailDTO = JobOpeningDetailDTO.builder()
                     .jobOpeningId(jobOpening.getId())
                     .title(jobOpening.getTitle())
                     .process(jobOpening.getProcess())
                     .career(jobOpening.getCareer())
+                    .careerYear(JcareerYear)
                     .edu(jobOpening.getEdu())
                     .compName(jobOpening.getUser().getUserName())
                     .compAddress(jobOpening.getCompAddress())
@@ -192,39 +217,68 @@ public class JobOpeningService {
 
     }
 
-    public List<JobOpeningMainDTO> 스킬별채용정보(Integer skillId) {
-        List<RequiredSkill> requiredSkillList = requiredSkillRepository.mfindByIdJoinSkillAndJobOpening(skillId);
+    //////////////////////////////////////////////////////////////////////////////////////////////
+
+    public List<JobOpeningMainDTO> 포지션과스킬선택(List<Integer> positionIdList, List<Integer> skillIdList) {
+
+        List<JobOpening> selectJobOpeningList = jobOpeningQueryRepository.findByIdJoinPositionAndSkill(positionIdList,
+                skillIdList);
 
         List<JobOpeningMainDTO> jobOpeningMainDTOList = new ArrayList<>();
-        for (RequiredSkill requiredSkill : requiredSkillList) {
+        // 선택된 jobOpening을 DTO에 담기 위한 List
+        for (JobOpening jobOpening : selectJobOpeningList) {
+
+            // skillName을 담기 위한 List
+            List<String> skillName = new ArrayList<>();
+            for (RequiredSkill requiredSkill : jobOpening.getRequiredSkillList()) {
+                String skill = requiredSkill.getSkill().getSkill();
+                skillName.add(skill);
+            }
 
             // 이중 for문을 방지하기 위해, 배열을 하나의 문자열로 만들기
-            String skillListString = String.join(" · ", requiredSkill.getSkill().getSkill());
+            String skillListString = String.join(" · ", skillName);
 
             // 주소 포맷
-            String Address = requiredSkill.getJobOpening().getCompAddress();
+            String Address = jobOpening.getCompAddress();
             String compAddressFormat = Split.AddressSplit(Address);
 
+            // careeryear null 방지
+            String JcareerYear = jobOpening.getCareerYear();
+            if (JcareerYear == null || "null".equals(JcareerYear)) {
+                JcareerYear = "";
+            }
+
             JobOpeningMainDTO jobOpeningMainDTO = JobOpeningMainDTO.builder()
-                    .jobOpeningId(requiredSkill.getJobOpening().getId())
-                    .title(requiredSkill.getJobOpening().getTitle())
-                    .compName(requiredSkill.getJobOpening().getUser().getUserName())
+                    .jobOpeningId(jobOpening.getId())
+                    .title(jobOpening.getTitle())
+                    .compName(jobOpening.getUser().getUserName())
                     .compAddress(compAddressFormat)
-                    .career(requiredSkill.getJobOpening().getCareer())
+                    .career(jobOpening.getCareer())
+                    .careerYear(JcareerYear)
                     .skill(skillListString)
                     .build();
             jobOpeningMainDTOList.add(jobOpeningMainDTO);
         }
-
         return jobOpeningMainDTOList;
     }
 
-    public List<JobOpeningMainDTO> 경력선택(String career, String location) {
+    //////////////////////////////////////////////////////////////////////////////////
+
+    public List<JobOpeningMainDTO> 경력과지역선택(String career, String careerYear, String location) {
 
         List<JobOpening> jobCareer = null;
         List<JobOpeningMainDTO> jobOpeningMainDTOList = new ArrayList<>();
 
-        jobCareer = jobOpeningRepository.findBySelectedCareerOrLocation(career, location);
+        if (career == null && careerYear == null && location != null) {
+            jobCareer = jobOpeningQueryRepository.mFindBySelectedCareerOrCareerYearOrLocation(null, null, location);
+        } else if (career == null && careerYear != null && location == null) {
+            jobCareer = jobOpeningQueryRepository.mFindBySelectedCareerOrCareerYearOrLocation(null, careerYear, null);
+        } else if (career != null && careerYear == null && location == null) {
+            jobCareer = jobOpeningQueryRepository.mFindBySelectedCareerOrCareerYearOrLocation(career, null, null);
+        } else if ((career == null || careerYear == null) && (location != null || location == " ")) {
+            jobCareer = jobOpeningQueryRepository.mFindBySelectedCareerOrCareerYearAndLocation(career, careerYear,
+                    location);
+        }
 
         // jobOpening을 담기 위한 List
         for (JobOpening jobOpening : jobCareer) {
@@ -243,22 +297,24 @@ public class JobOpeningService {
             String Address = jobOpening.getCompAddress();
             String compAddressFormat = Split.AddressSplit(Address);
 
+            // careeryear null 방지
+            String JcareerYear = jobOpening.getCareerYear();
+            if (JcareerYear == null || "null".equals(JcareerYear)) {
+                JcareerYear = "";
+            }
+
             JobOpeningMainDTO jobOpeningMainDTO = JobOpeningMainDTO.builder()
                     .jobOpeningId(jobOpening.getId())
                     .title(jobOpening.getTitle())
                     .compName(jobOpening.getUser().getUserName())
                     .compAddress(compAddressFormat)
                     .career(jobOpening.getCareer())
+                    .careerYear(JcareerYear)
                     .skill(skillListString)
                     .build();
             jobOpeningMainDTOList.add(jobOpeningMainDTO);
         }
         return jobOpeningMainDTOList;
-    }
-
-    public List<JobOpeningMainDTO> 지역선택(Integer locationId) {
-
-        return null;
     }
 
 }
