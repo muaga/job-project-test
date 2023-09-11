@@ -7,6 +7,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.SessionAttribute;
 
@@ -43,10 +44,10 @@ public class ReplyController {
     @PostMapping("/api/community/reply/save")
     public @ResponseBody ApiUtil<String> save(@RequestBody ReplyRequest.ReplySaveDTO replySaveDTO) {
         User sessionUser = (User) session.getAttribute("sessionUser");
-        if (sessionUser == null) {
-            throw new MyApiException("로그인 후 작성이 가능합니다.");
-        }
-        replyService.댓글작성(1, replySaveDTO);
+        // if (sessionUser == null) {
+        // throw new MyApiException("로그인 후 작성이 가능합니다.");
+        // }
+        replyService.댓글작성(4, replySaveDTO);
         return new ApiUtil<String>(true, "댓글쓰기 성공");
     }
 
@@ -56,7 +57,7 @@ public class ReplyController {
     // @SessionAttribute User sessionUser
     @PostMapping("/comp/community/reply/{id}/delete")
     public String compReplyDelete(@PathVariable Integer id) {
-        replyService.댓글삭제(1, id);
+        replyService.댓글삭제(4, id);
         return "redirect:/comp/community/board/" + id;
     }
 

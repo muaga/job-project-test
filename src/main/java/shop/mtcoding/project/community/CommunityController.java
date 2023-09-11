@@ -112,6 +112,7 @@ public class CommunityController {
         User sessionUser = (User) session.getAttribute("sessionUser");
         BoardDetailDTO boardDetailDTO = communityService.상세게시물(id, 1);
         model.addAttribute("boardDetailDTO", boardDetailDTO);
+
         return "comp/comp_community_detail";
     }
 
