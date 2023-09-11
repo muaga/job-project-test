@@ -223,4 +223,30 @@ public class JobOpeningService {
         return jobOpeningMainDTOList;
     }
 
+    public List<JobOpeningMainDTO> 경력선택(Integer careerId, String career, String careerYear) {
+
+        List<JobOpening> jobCareer;
+        List<JobOpeningMainDTO> jobOpeningMainDTOList = new ArrayList<>();
+
+        if ("신입".equals(career)) {
+            // 경력이 '신입'인 경우, careerYear 값은 무시하고 '신입'인 채용 정보만 가져옵니다.
+            jobCareer = jobOpeningRepository.findBySelectedCareerOrCareerYear("신입", null);
+        } else {
+            // 그 외의 경우에는 선택한 career 및 careerYear에 따라 필터링합니다.
+            jobCareer = jobOpeningRepository.findBySelectedCareerOrCareerYear(career, careerYear);
+        }
+
+        JobOpeningMainDTO jobOpeningMainDTO = JobOpeningMainDTO.builder()
+                .career(career)
+                .careerYear(careerYear)
+                .build();
+        jobOpeningMainDTOList.add(jobOpeningMainDTO);
+
+        return jobOpeningMainDTOList;
+    }
+
+    public List<JobOpeningMainDTO> 지역선택(Integer locationId) {
+        return null;
+    }
+
 }
